@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Saber</string>
+
+    <string name="seconds">%d seconds elapsed</string>
+</resources>

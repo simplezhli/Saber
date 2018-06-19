@@ -1,0 +1,18 @@
+apply plugin: 'java-library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group='com.zl.weilu.saber.complier'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.squareup:javapoet:1.11.1'
+    implementation 'com.google.auto.service:auto-service:1.0-rc4'
+    implementation project(':saber-annotation')
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+tasks.withType(JavaCompile){
+    options.encoding = "UTF-8"
+}

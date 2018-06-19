@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.zl.weilu.saber.api'
+//group='com.zl.weilu.saber.api'
 
 android {
     compileSdkVersion 27
@@ -30,4 +30,5 @@ dependencies {
     api "android.arch.lifecycle:extensions:1.1.1"
     testImplementation 'junit:junit:4.12'
     api project(':saber-annotation')
+//    api 'com.github.simplezhli.Saber:saber-annotation:0.0.1'
 }

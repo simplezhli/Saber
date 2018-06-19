@@ -2,13 +2,17 @@
 
 ## 本项目帮助你快速使用LiveData与ViewModel
 
+## 详细介绍
+
+- [感受LiveData 与 ViewModel结合之美](https://blog.csdn.net/qq_17766199/article/details/80732836)
+
 ## 使用方式
 
 添加依赖
 
 ```
-    implementation 'com.github.simplezhli.Saber:saber-api:0.0.1'
-    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.0.1'
+    implementation 'com.github.simplezhli.Saber:saber-api:0.1.1'
+    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.1.1'
 ```
 
 首先创建一个类，使用`@LiveData`注解标记你要保存的数据。注意这里的参数名称，下面会用到。

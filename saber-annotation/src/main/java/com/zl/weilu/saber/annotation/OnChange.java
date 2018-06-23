@@ -20,4 +20,9 @@ public @interface OnChange {
      * 监听变化model名称
      */
     String model();
+
+    /**
+     * 监听模式类型
+     */
+    ObserveType type() default ObserveType.DEFAULT;
 }

@@ -11,11 +11,11 @@
 添加依赖
 
 ```
-    implementation 'com.github.simplezhli.Saber:saber-api:0.1.1'
-    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.1.1'
+    implementation 'com.github.simplezhli.Saber:saber-api:0.1.2'
+    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.1.2'
 ```
 
-首先创建一个类，使用`@LiveData`注解标记你要保存的数据。注意这里的参数名称，下面会用到。
+首先创建一个类，使用`@LiveData`注解标记你要保存的数据。注意这里的参数名称value，下面会用到。
 ```
 public class SeekBar {
     
@@ -58,7 +58,17 @@ public class SeekBarViewModel extends ViewModel {
 
 ```
 
-提供了ViewModel的常用操作。`setXXX()`要在主线程中调用，而`postXXX()`既可在主线程也可在子线程中调用。一般情况下可以直接使用。比如上面的Fragment例子。简化为：
+生成代码提供了ViewModel的常用操作。
+
+- `setXXX()`要在主线程中调用。
+
+- `postXXX()`既可在主线程也可在子线程中调用。
+
+- `getXXX()`用于添加观察者。
+
+- `getXXXValue()`可以获取保存的数据。
+
+一般情况下可以直接使用它。比如上面的Fragment例子。简化为：
 
 ```
 public class TestFragment extends Fragment {
@@ -99,11 +109,19 @@ public class TestFragment extends Fragment {
     }
 }
 ```
-默认使用`@BindViewModel`用于数据储存，如果需要`Fragment`之间数据共享，需要`@BindViewModel(isShare = true)`，当然也要保证传入相同的key值。默认key值是类的规范名称，也就是包名加类名。
+
+`@BindViewModel`用于绑定ViewModel。
+
+`@OnChange(model = "xxx")`用于接收指定ViewModel的数据变化。
+
+如果需要`Fragment`之间数据共享，需要`@BindViewModel(isShare = true)`，当然也要保证传入相同的key值。默认key值是类的规范名称，也就是包名加类名。
 
 ![这里写图片描述](https://img-blog.csdn.net/20180619100304754?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE3NzY2MTk5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
 所以一旦需要互通的Fragment类名或包名不一致，就无法数据共享。这时可以指定key值：`@BindViewModel(key = "value")`
+
+更多的使用方法可以参看本项目demo。
+
 
 ## Thanks For
 

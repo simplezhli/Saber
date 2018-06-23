@@ -8,6 +8,7 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.zl.weilu.saber.annotation.BindViewModel;
+import com.zl.weilu.saber.annotation.ObserveType;
 import com.zl.weilu.saber.annotation.OnChange;
 import com.zl.weilu.saber.compiler.utils.BaseProcessor;
 import com.zl.weilu.saber.compiler.utils.ClassEntity;
@@ -137,6 +138,7 @@ public class BindViewModelProcessor extends BaseProcessor {
         for (MethodEntity methodEntity : methods.values()){
             String field_ = methodEntity.getParameterElements().get(0).toString();
             String model = methodEntity.getAnnotation(OnChange.class).model();
+            ObserveType type = methodEntity.getAnnotation(OnChange.class).type();
 
             String l = methodEntity.getMethodElement().getParameters().get(0).asType().toString();
             ParameterizedTypeName liveDataTypeName = null;
@@ -148,18 +150,18 @@ public class BindViewModelProcessor extends BaseProcessor {
                 mClazz = ClassName.bestGuess(l);
 
             }else {
-                String type = l.substring(0, i);
+                String classType = l.substring(0, i);
 
                 int e = l.lastIndexOf(">");
 
                 String[] types = l.substring(i + 1, e).split(",");
 
                 if (types.length == 1){
-                    liveDataTypeName = ParameterizedTypeName.get(ClassName.bestGuess(type), ClassName.bestGuess(types[0]));
+                    liveDataTypeName = ParameterizedTypeName.get(ClassName.bestGuess(classType), ClassName.bestGuess(types[0]));
                 }
 
                 if (types.length == 2){
-                    liveDataTypeName = ParameterizedTypeName.get(ClassName.bestGuess(type), ClassName.bestGuess(types[0]), ClassName.bestGuess(types[1]));
+                    liveDataTypeName = ParameterizedTypeName.get(ClassName.bestGuess(classType), ClassName.bestGuess(types[0]), ClassName.bestGuess(types[1]));
                 }
             }
 
@@ -174,8 +176,20 @@ public class BindViewModelProcessor extends BaseProcessor {
                             .build())
                     .build();
 
-            initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field_) + "().observe(target, $L)",
-                    model, comparator);
+            switch (type){
+
+                case DEFAULT:
+                    initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field_) + "().observe(target, $L)",
+                            model, comparator);
+
+                    break;
+                case FOREVER:
+                    initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field_) + "().observeForever($L)",
+                            model, comparator);
+
+                    break;
+            }
+
         }
 
         builder.addMethod(initBuilder.build())

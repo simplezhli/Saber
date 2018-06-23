@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 1
-        versionName "0.0.1"
+        versionCode 12
+        versionName "0.1.2"
         
     }
 
@@ -29,6 +29,6 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     api "android.arch.lifecycle:extensions:1.1.1"
     testImplementation 'junit:junit:4.12'
-//    api project(':saber-annotation')
-    api 'com.github.simplezhli.Saber:saber-annotation:0.1.1'
+    api project(':saber-annotation')
+//    api 'com.github.simplezhli.Saber:saber-annotation:0.1.2'
 }

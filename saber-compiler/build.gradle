@@ -8,8 +8,6 @@ dependencies {
     implementation 'com.squareup:javapoet:1.11.1'
     implementation 'com.google.auto.service:auto-service:1.0-rc4'
     implementation project(':saber-annotation')
-//    implementation 'com.github.simplezhli.Saber:saber-annotation:0.1.2'
-    
 }
 
 sourceCompatibility = "1.7"

@@ -1,5 +1,8 @@
 package com.zl.weilu.saber.annotation;
 
+/**
+ * 数据观察模式枚举
+ */
 public enum ObserveType {
 
     /**

@@ -1,15 +1,23 @@
 package com.zl.weilu.saber.api;
 
+import android.arch.lifecycle.ViewModel;
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
+
+import com.zl.weilu.saber.annotation.BindViewModel;
+import com.zl.weilu.saber.annotation.OnChange;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Android {@linkplain ViewModel}绑定。
+ * 此类可以通过{@linkplain BindViewModel } 与 {@linkplain OnChange}注释来简化{@linkplain ViewModel}的获取与添加监听器。
+ */
 public class Saber {
 
     static final Map<Class<?>, Constructor<? extends UnBinder>> BINDINGS = new LinkedHashMap<>();

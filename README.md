@@ -11,8 +11,8 @@
 添加依赖
 
 ```
-    implementation 'com.github.simplezhli.Saber:saber-api:0.1.2'
-    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.1.2'
+    implementation 'com.github.simplezhli.Saber:saber-api:0.1.6'
+    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.1.6'
 ```
 
 首先创建一个类，使用`@LiveData`注解标记你要保存的数据。注意这里的参数名称value，下面会用到。
@@ -68,7 +68,7 @@ public class SeekBarViewModel extends ViewModel {
 
 - `getXXXValue()`可以获取保存的数据。
 
-一般情况下可以直接使用它。比如上面的Fragment例子。简化为：
+一般情况下可以直接使用它。比如：
 
 ```
 public class TestFragment extends Fragment {

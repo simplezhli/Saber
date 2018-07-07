@@ -8,6 +8,7 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.zl.weilu.saber.annotation.LiveData;
+import com.zl.weilu.saber.annotation.AndroidViewModel;
 import com.zl.weilu.saber.compiler.utils.BaseProcessor;
 import com.zl.weilu.saber.compiler.utils.ClassEntity;
 import com.zl.weilu.saber.compiler.utils.FieldEntity;
@@ -26,7 +27,7 @@ public class LiveDataProcessor extends BaseProcessor {
 
     @Override
     protected Class[] getSupportedAnnotations() {
-        return new Class[]{LiveData.class};
+        return new Class[]{LiveData.class, AndroidViewModel.class};
     }
 
     @Override
@@ -41,17 +42,37 @@ public class LiveDataProcessor extends BaseProcessor {
     private JavaFile brewViewModel(Map.Entry<String, ClassEntity> item) {
 
         ClassEntity classEntity = item.getValue();
+        AndroidViewModel viewModel = classEntity.getAnnotation(AndroidViewModel.class);
         /*类名*/
         String className = classEntity.getElement().getSimpleName().toString() + "ViewModel";
 
         ClassName mutableLiveDataClazz = ClassName.get("android.arch.lifecycle", "MutableLiveData");
-        ClassName viewModelClazz = ClassName.get("android.arch.lifecycle", "ViewModel");
+        ClassName viewModelClazz;
+
+        if (viewModel == null){
+            viewModelClazz = ClassName.get("android.arch.lifecycle", "ViewModel");
+        }else {
+            viewModelClazz = ClassName.get("android.arch.lifecycle", "AndroidViewModel");
+        }
+
 
         TypeSpec.Builder builder = TypeSpec
                 .classBuilder(className)
                 .addModifiers(Modifier.PUBLIC)
                 .superclass(viewModelClazz);
 
+        if (viewModel != null){
+            ClassName applicationClazz = ClassName.get("android.app", "Application");
+
+            MethodSpec constructorMethod = MethodSpec
+                    .constructorBuilder()
+                    .addModifiers(Modifier.PUBLIC)
+                    .addParameter(applicationClazz, "application")
+                    .addStatement("super(application)")
+                    .build();
+
+            builder.addMethod(constructorMethod);
+        }
 
         Map<String, FieldEntity> fields = classEntity.getFields();
 

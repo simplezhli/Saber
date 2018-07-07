@@ -18,7 +18,7 @@
 首先创建一个类，使用`@LiveData`注解标记你要保存的数据。注意这里的参数名称value，下面会用到。
 ```
 public class SeekBar {
-    
+
     @LiveData
     Integer value;
 }
@@ -56,6 +56,17 @@ public class SeekBarViewModel extends ViewModel {
   }
 }
 
+```
+
+如果想使用`AndroidViewModel`的话，可以添加`@AndroidViewModel`注解
+
+```
+@AndroidViewModel
+public class SeekBar {
+
+    @LiveData
+    Integer value;
+}
 ```
 
 生成代码提供了ViewModel的常用操作。

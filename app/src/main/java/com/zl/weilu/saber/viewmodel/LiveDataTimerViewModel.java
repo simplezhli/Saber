@@ -16,8 +16,8 @@
 
 package com.zl.weilu.saber.viewmodel;
 
+import android.app.Application;
 import android.os.SystemClock;
-import android.util.Log;
 
 import com.zl.weilu.saber.activity.MainActivity;
 
@@ -33,8 +33,9 @@ public class LiveDataTimerViewModel extends TimerViewModel {
 
     private long mInitialTime;
 
-    public LiveDataTimerViewModel() {
-        
+    public LiveDataTimerViewModel(Application application) {
+        super(application);
+
         mInitialTime = SystemClock.elapsedRealtime();
         Timer timer = new Timer();
 

@@ -7,8 +7,9 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
-import com.zl.weilu.saber.annotation.LiveData;
 import com.zl.weilu.saber.annotation.AndroidViewModel;
+import com.zl.weilu.saber.annotation.LiveData;
+import com.zl.weilu.saber.annotation.LiveDateType;
 import com.zl.weilu.saber.compiler.utils.BaseProcessor;
 import com.zl.weilu.saber.compiler.utils.ClassEntity;
 import com.zl.weilu.saber.compiler.utils.FieldEntity;
@@ -47,6 +48,8 @@ public class LiveDataProcessor extends BaseProcessor {
         String className = classEntity.getElement().getSimpleName().toString() + "ViewModel";
 
         ClassName mutableLiveDataClazz = ClassName.get("android.arch.lifecycle", "MutableLiveData");
+        ClassName singleLiveDataClazz = ClassName.get("com.zl.weilu.saber.api.event", "SingleLiveEvent");
+        
         ClassName viewModelClazz;
 
         if (viewModel == null){
@@ -107,10 +110,11 @@ public class LiveDataProcessor extends BaseProcessor {
                 
             }
 
-            ParameterizedTypeName typeName = ParameterizedTypeName.get(mutableLiveDataClazz, mClazz == null ? liveDataTypeName : mClazz);
+            LiveDateType type = fieldEntity.getAnnotation(LiveData.class).type();
+            
+            ParameterizedTypeName typeName = ParameterizedTypeName.get(type == LiveDateType.DEFAULT ? mutableLiveDataClazz : singleLiveDataClazz, mClazz == null ? liveDataTypeName : mClazz);
 
             field = FieldSpec.builder(typeName, "m" + fieldName, Modifier.PRIVATE)
-//                    .initializer("new $T<>()", mutableLiveDataClazz)
                     .build();
 
             MethodSpec getMethod = MethodSpec
@@ -118,7 +122,7 @@ public class LiveDataProcessor extends BaseProcessor {
                     .addModifiers(Modifier.PUBLIC)
                     .returns(field.type)
                     .beginControlFlow("if (m$L == null)", fieldName)
-                    .addStatement("m$L = new MutableLiveData<>()", fieldName)
+                    .addStatement(type == LiveDateType.DEFAULT ? "m$L = new MutableLiveData<>()" : "m$L = new SingleLiveEvent<>()", fieldName)
                     .endControlFlow()
                     .addStatement("return m$L", fieldName)
                     .build();

@@ -138,6 +138,8 @@ public class TestFragment extends Fragment {
 
 - [butterknife](https://github.com/JakeWharton/butterknife)
 
+- [在 SnackBar，Navigation 和其他事件中使用 LiveData](https://juejin.im/post/5b2b1b2cf265da5952314b63)
+
 ## License
 
 	Copyright 2018 simplezhli

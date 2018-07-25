@@ -14,5 +14,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Documented
 public @interface LiveData {
-
+    
+    /**
+     * LiveDate类型
+     * @return 类型
+     */
+    LiveDateType type() default LiveDateType.DEFAULT;
 }

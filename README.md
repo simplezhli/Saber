@@ -2,6 +2,12 @@
 
 ## 本项目帮助你快速使用LiveData与ViewModel
 
+- 支持`ViewModel`、`AndroidViewModel`的`setValue`、`postValue`等常用方法。
+
+- 支持`observe`、`observeForever`两种观察模式。
+
+- 支持`SingleLiveEvent`。（默认为`MutableLiveData`）
+
 ## 详细介绍
 
 - [感受LiveData 与 ViewModel结合之美](https://blog.csdn.net/qq_17766199/article/details/80732836)
@@ -11,8 +17,8 @@
 添加依赖
 
 ```
-    implementation 'com.github.simplezhli.Saber:saber-api:0.1.6'
-    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.1.6'
+    implementation 'com.github.simplezhli.Saber:saber-api:0.1.8'
+    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.1.8'
 ```
 
 首先创建一个类，使用`@LiveData`注解标记你要保存的数据。注意这里的参数名称value，下面会用到。

@@ -2,11 +2,13 @@
 
 ## 本项目帮助你快速使用LiveData与ViewModel
 
-- 支持`ViewModel`、`AndroidViewModel`的`setValue`、`postValue`等常用方法。
+- 支持 `ViewModel`、`AndroidViewModel` 的 `setValue`、`postValue`等常用方法。
 
-- 支持`observe`、`observeForever`两种观察模式。
+- 支持 `observe`、`observeForever` 两种观察模式。
 
-- 支持`SingleLiveEvent`。（默认为`MutableLiveData`）
+- 支持 `SingleLiveEvent`。（默认为 `MutableLiveData`）
+
+- 支持事件总线的操作。
 
 ## 详细介绍
 
@@ -85,6 +87,8 @@ public class SeekBar {
 
 - `getXXXValue()`可以获取保存的数据。
 
+###1. 普通使用方法
+
 一般情况下可以直接使用它。比如：
 
 ```
@@ -137,6 +141,24 @@ public class TestFragment extends Fragment {
 
 所以一旦需要互通的Fragment类名或包名不一致，就无法数据共享。这时可以指定key值：`@BindViewModel(key = "value")`
 
+###2. 事件总线使用方法
+
+```
+    @OnChange(model = "key_name", isBus = true)
+    void liveDataBus(String value){
+        
+    }
+
+```
+
+发送：
+
+```
+    LiveDataBus.get().with("key_name").postValue("value");
+
+```
+
+
 更多的使用方法可以参看本项目demo。
 
 
@@ -145,6 +167,8 @@ public class TestFragment extends Fragment {
 - [butterknife](https://github.com/JakeWharton/butterknife)
 
 - [在 SnackBar，Navigation 和其他事件中使用 LiveData](https://juejin.im/post/5b2b1b2cf265da5952314b63)
+
+- [LiveDataBus](https://github.com/JeremyLiao/LiveDataBus)
 
 ## License
 

@@ -15,7 +15,14 @@ import java.lang.annotation.Target;
 public @interface OnChange {
 
     /**
-     * 监听变化model名称
+     * 是否是事件总线类型
+     * @return
+     */
+    boolean isBus() default false;
+
+    /**
+     * 监听变化model名称,
+     * 当isBus为true时，用于key。
      * @return model名称
      */
     String model();

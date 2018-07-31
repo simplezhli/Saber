@@ -74,7 +74,7 @@ public class BindViewModelProcessor extends BaseProcessor {
                 .addStatement("init()")
                 .build();
 
-        MethodSpec unbindMethod = MethodSpec
+        MethodSpec.Builder unbindMethodBuilder = MethodSpec
                 .methodBuilder("unbind")
                 .addAnnotation(callSuperClazz)
                 .addAnnotation(uiThreadClazz)
@@ -84,8 +84,7 @@ public class BindViewModelProcessor extends BaseProcessor {
                 .beginControlFlow("if (target == null)")
                 .addStatement("throw new $T(\"Bindings already cleared.\")", exceptionClazz)
                 .endControlFlow()
-                .addStatement("this.target = null")
-                .build();
+                .addStatement("this.target = null");
 
         builder.addField(field)
                 .addMethod(constructorMethod);
@@ -133,11 +132,12 @@ public class BindViewModelProcessor extends BaseProcessor {
         Map<String, MethodEntity> methods = classEntity.getMethods();
 
         ClassName observerClazz = ClassName.get("android.arch.lifecycle", "Observer");
-
-
+        
         for (MethodEntity methodEntity : methods.values()){
             String field_ = methodEntity.getParameterElements().get(0).toString();
             String model = methodEntity.getAnnotation(OnChange.class).model();
+            boolean isBus = methodEntity.getAnnotation(OnChange.class).isBus();
+            
             if (StringUtils.isEmpty(model)) {
                 throw new IllegalArgumentException(
                         String.format("%s 中的 %s方法 model为空!", classEntity.getClassSimpleName(), methodEntity.getMethodName()));
@@ -181,24 +181,55 @@ public class BindViewModelProcessor extends BaseProcessor {
                             .build())
                     .build();
 
+            ClassName liveDataBusClazz = ClassName.get("com.zl.weilu.saber.api", "LiveDataBus");
+            
             switch (type){
-
                 case DEFAULT:
-                    initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field_) + "().observe(target, $L)",
-                            model, comparator);
+                    if (isBus){
+                        initBuilder.addStatement("$T.get().with($S, $T.class).observe(target, $L)",
+                                liveDataBusClazz, model, mClazz == null ? liveDataTypeName : mClazz, comparator);
+                    }else {
+                        initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field_) + "().observe(target, $L)",
+                                model, comparator);
+                    }
 
                     break;
                 case FOREVER:
-                    initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field_) + "().observeForever($L)",
-                            model, comparator);
 
+                    /**
+                     * FOREVER模式需要手动取消订阅
+                     */
+                    FieldSpec observerField = FieldSpec
+                            .builder(observerClazz, model + "Observer", Modifier.PRIVATE)
+                            .build();
+                    
+                    builder.addField(observerField);
+
+                    initBuilder.addStatement(model + "Observer = $L", comparator);
+                    
+                    if (isBus){
+                        initBuilder.addStatement("$T.get().with($S, $T.class).observeForever("+ model + "Observer)",
+                                liveDataBusClazz, model, mClazz == null ? liveDataTypeName : mClazz);
+                        
+                        unbindMethodBuilder.addStatement("$T.get().with($S, $T.class).removeObserver("+ model + "Observer)",
+                                liveDataBusClazz, model, mClazz == null ? liveDataTypeName : mClazz);
+                    }else {
+                        initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field_) + 
+                                        "().observeForever("+ model + "Observer)", model);
+
+                        unbindMethodBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field_) + 
+                                        "().removeObserver("+ model + "Observer)", model);
+                    }
+
+                    break;
+                default:
                     break;
             }
 
         }
 
         builder.addMethod(initBuilder.build())
-                .addMethod(unbindMethod);
+                .addMethod(unbindMethodBuilder.build());
 
         TypeSpec typeSpec = builder.build();
 

@@ -1,1 +1,1 @@
-include ':app', ':saber-annotation', ':saber-compiler', ':saber-api'
+include ':app', ':saber-annotation', ':saber-compiler', ':saber-api', ':saberx-api'

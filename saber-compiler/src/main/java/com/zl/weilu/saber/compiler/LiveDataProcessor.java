@@ -47,15 +47,15 @@ public class LiveDataProcessor extends BaseProcessor {
         /*类名*/
         String className = classEntity.getElement().getSimpleName().toString() + "ViewModel";
 
-        ClassName mutableLiveDataClazz = ClassName.get("android.arch.lifecycle", "MutableLiveData");
+        ClassName mutableLiveDataClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "MutableLiveData");
         ClassName singleLiveDataClazz = ClassName.get("com.zl.weilu.saber.api.event", "SingleLiveEvent");
         
         ClassName viewModelClazz;
 
         if (viewModel == null){
-            viewModelClazz = ClassName.get("android.arch.lifecycle", "ViewModel");
+            viewModelClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "ViewModel");
         }else {
-            viewModelClazz = ClassName.get("android.arch.lifecycle", "AndroidViewModel");
+            viewModelClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "AndroidViewModel");
         }
 
 

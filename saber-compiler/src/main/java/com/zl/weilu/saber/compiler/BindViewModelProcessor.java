@@ -50,10 +50,10 @@ public class BindViewModelProcessor extends BaseProcessor {
         String className = classEntity.getElement().getSimpleName().toString() + "_Providers";
 
         ClassName unBinderClazz = ClassName.get("com.zl.weilu.saber.api", "UnBinder");
-        ClassName viewModelProvidersClazz = ClassName.get("android.arch.lifecycle", "ViewModelProviders");
+        ClassName viewModelProvidersClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "ViewModelProviders");
         ClassName activityClazz = ClassName.bestGuess(classEntity.getClassQualifiedName());
-        ClassName uiThreadClazz = ClassName.get("android.support.annotation", "UiThread");
-        ClassName callSuperClazz = ClassName.get("android.support.annotation", "CallSuper");
+        ClassName uiThreadClazz = ClassName.get(useAndroidX ? "androidx.annotation" : "android.support.annotation", "UiThread");
+        ClassName callSuperClazz = ClassName.get(useAndroidX ? "androidx.annotation" : "android.support.annotation", "CallSuper");
         ClassName exceptionClazz = ClassName.get("java.lang", "IllegalStateException");
 
         TypeSpec.Builder builder = TypeSpec
@@ -131,7 +131,7 @@ public class BindViewModelProcessor extends BaseProcessor {
 
         Map<String, MethodEntity> methods = classEntity.getMethods();
 
-        ClassName observerClazz = ClassName.get("android.arch.lifecycle", "Observer");
+        ClassName observerClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "Observer");
         
         for (MethodEntity methodEntity : methods.values()){
             String field_ = methodEntity.getParameterElements().get(0).toString();

@@ -2,7 +2,6 @@ package com.zl.weilu.saber.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
@@ -15,6 +14,8 @@ import com.zl.weilu.saber.api.Saber;
 import com.zl.weilu.saber.api.UnBinder;
 import com.zl.weilu.saber.viewmodel.LiveDataTimerViewModel;
 import com.zl.weilu.saber.viewmodel.SingleViewModel;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity {

@@ -1,7 +1,6 @@
 package com.zl.weilu.saber.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.zl.weilu.saber.R;
@@ -10,6 +9,8 @@ import com.zl.weilu.saber.annotation.ObserveType;
 import com.zl.weilu.saber.annotation.OnChange;
 import com.zl.weilu.saber.api.Saber;
 import com.zl.weilu.saber.viewmodel.SeekBarViewModel;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Activity监听Fragment数据改变

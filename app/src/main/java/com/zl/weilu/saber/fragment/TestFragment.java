@@ -17,7 +17,6 @@
 package com.zl.weilu.saber.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,8 @@ import com.zl.weilu.saber.annotation.BindViewModel;
 import com.zl.weilu.saber.annotation.OnChange;
 import com.zl.weilu.saber.api.Saber;
 import com.zl.weilu.saber.viewmodel.SeekBarViewModel;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * Shows a SeekBar that is synced with a value in a ViewModel.

@@ -103,4 +103,8 @@ public class MainActivity extends AppCompatActivity {
             mUnBinder.unbind();
         }
     }
+
+    public void toPagingActivity(View view) {
+        startActivity(new Intent(MainActivity.this, PagingActivity.class));
+    }
 }

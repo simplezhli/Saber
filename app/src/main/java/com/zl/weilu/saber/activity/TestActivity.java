@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class TestActivity extends AppCompatActivity {
 
     @BindViewModel(key = "mm")
-    SeekBarViewModel mSeekBarViewModel;
+    SeekBarViewModel mViewModel;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,8 @@ public class TestActivity extends AppCompatActivity {
     }
 
     // 使用observeForever
-    @OnChange(model = "mSeekBarViewModel", type = ObserveType.FOREVER)
+    // 不设置model，默认为mViewModel。
+    @OnChange(type = ObserveType.FOREVER)
     void setData(Integer value){
         if (value != null) {
             Log.e("TestActivity:", "Fragment1，2中，SeekBar的数值：" + value);

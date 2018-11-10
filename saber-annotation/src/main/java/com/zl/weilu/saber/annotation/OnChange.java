@@ -25,7 +25,7 @@ public @interface OnChange {
      * 当isBus为true时，用于key。
      * @return model名称
      */
-    String model();
+    String model() default "mViewModel";
 
     /**
      * 监听模式类型

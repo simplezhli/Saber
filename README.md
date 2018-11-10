@@ -127,7 +127,7 @@ public class TestFragment extends Fragment {
         });
     }
 
-    @OnChange(model = "mSeekBarViewModel") //<--接收变化
+    @OnChange(model = "mSeekBarViewModel") //<--接收变化的ViewModel变量名
     void setData(Integer value){ //注意这里使用 @LiveData 标记的参数名
         if (value != null) {
             mSeekBar.setProgress(value);
@@ -138,7 +138,7 @@ public class TestFragment extends Fragment {
 
 `@BindViewModel`用于绑定ViewModel。
 
-`@OnChange(model = "xxx")`用于接收指定ViewModel的数据变化。
+`@OnChange(model = "xxx")`用于接收指定ViewModel的数据变化，可以不设置，默认model名称为mViewModel。
 
 如果需要`Fragment`之间数据共享，需要`@BindViewModel(isShare = true)`，当然也要保证传入相同的key值。默认key值是类的规范名称，也就是包名加类名。
 

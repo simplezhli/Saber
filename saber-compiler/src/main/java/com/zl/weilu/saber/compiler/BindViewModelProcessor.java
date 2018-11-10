@@ -137,11 +137,6 @@ public class BindViewModelProcessor extends BaseProcessor {
             String field_ = methodEntity.getParameterElements().get(0).toString();
             String model = methodEntity.getAnnotation(OnChange.class).model();
             boolean isBus = methodEntity.getAnnotation(OnChange.class).isBus();
-            
-            if (StringUtils.isEmpty(model)) {
-                throw new IllegalArgumentException(
-                        String.format("%s 中的 %s方法 model为空!", classEntity.getClassSimpleName(), methodEntity.getMethodName()));
-            }
 
             ObserveType type = methodEntity.getAnnotation(OnChange.class).type();
 

@@ -2,7 +2,7 @@
 
 ## 本项目帮助你快速使用LiveData与ViewModel
 
-- 以适配AndroidX。
+- 已适配AndroidX。
 
 - 支持 `ViewModel`、`AndroidViewModel` 的 `setValue`、`postValue`等常用方法。
 
@@ -20,7 +20,7 @@
 
 添加依赖
 
-```
+```xml
     implementation 'com.github.simplezhli.Saber:saber-api:0.2.0'
     //AndroidX使用
     implementation 'com.github.simplezhli.Saber:saberx-api:0.2.0'
@@ -29,7 +29,7 @@
 ```
 
 首先创建一个类，使用`@LiveData`注解标记你要保存的数据。注意这里的参数名称value，下面会用到。
-```
+```java
 public class SeekBar {
 
     @LiveData
@@ -39,7 +39,7 @@ public class SeekBar {
 
 Build -- > Make Project 会生成代码如下：
 
-```
+```java
 public class SeekBarViewModel extends ViewModel {
   private MutableLiveData<Integer> mValue;
 
@@ -73,7 +73,7 @@ public class SeekBarViewModel extends ViewModel {
 
 如果想使用`AndroidViewModel`的话，可以添加`@AndroidViewModel`注解
 
-```
+```java
 @AndroidViewModel
 public class SeekBar {
 
@@ -96,7 +96,7 @@ public class SeekBar {
 
 一般情况下可以直接使用它。比如：
 
-```
+```java
 public class TestFragment extends Fragment {
 
     private SeekBar mSeekBar;
@@ -148,7 +148,7 @@ public class TestFragment extends Fragment {
 
 ### 2. 事件总线使用方法
 
-```
+```java
     @OnChange(model = "key_name", isBus = true)
     void liveDataBus(String value){
         
@@ -157,7 +157,7 @@ public class TestFragment extends Fragment {
 
 发送：
 
-```
+```java
     LiveDataBus.get().with("key_name").postValue("value");
 ```
 

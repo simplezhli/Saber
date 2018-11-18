@@ -3,7 +3,7 @@ package com.zl.weilu.saber.annotation;
 /**
  * LiveDate模式枚举
  */
-public enum LiveDateType {
+public enum LiveDataType {
 
     /**
      * 默认模式

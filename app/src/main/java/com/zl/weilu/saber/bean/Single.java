@@ -1,7 +1,7 @@
 package com.zl.weilu.saber.bean;
 
 import com.zl.weilu.saber.annotation.LiveData;
-import com.zl.weilu.saber.annotation.LiveDateType;
+import com.zl.weilu.saber.annotation.LiveDataType;
 
 /**
  * @Description:
@@ -10,6 +10,6 @@ import com.zl.weilu.saber.annotation.LiveDateType;
  */
 public class Single {
 
-    @LiveData(type = LiveDateType.SINGLE)
+    @LiveData(type = LiveDataType.SINGLE)
     Integer value;
 }

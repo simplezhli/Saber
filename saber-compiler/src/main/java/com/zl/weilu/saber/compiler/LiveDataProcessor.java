@@ -9,7 +9,7 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.zl.weilu.saber.annotation.AndroidViewModel;
 import com.zl.weilu.saber.annotation.LiveData;
-import com.zl.weilu.saber.annotation.LiveDateType;
+import com.zl.weilu.saber.annotation.LiveDataType;
 import com.zl.weilu.saber.compiler.utils.BaseProcessor;
 import com.zl.weilu.saber.compiler.utils.ClassEntity;
 import com.zl.weilu.saber.compiler.utils.FieldEntity;
@@ -110,9 +110,9 @@ public class LiveDataProcessor extends BaseProcessor {
                 
             }
 
-            LiveDateType type = fieldEntity.getAnnotation(LiveData.class).type();
+            LiveDataType type = fieldEntity.getAnnotation(LiveData.class).type();
             
-            ParameterizedTypeName typeName = ParameterizedTypeName.get(type == LiveDateType.DEFAULT ? mutableLiveDataClazz : singleLiveDataClazz, mClazz == null ? liveDataTypeName : mClazz);
+            ParameterizedTypeName typeName = ParameterizedTypeName.get(type == LiveDataType.DEFAULT ? mutableLiveDataClazz : singleLiveDataClazz, mClazz == null ? liveDataTypeName : mClazz);
 
             field = FieldSpec.builder(typeName, "m" + fieldName, Modifier.PRIVATE)
                     .build();
@@ -122,7 +122,7 @@ public class LiveDataProcessor extends BaseProcessor {
                     .addModifiers(Modifier.PUBLIC)
                     .returns(field.type)
                     .beginControlFlow("if (m$L == null)", fieldName)
-                    .addStatement(type == LiveDateType.DEFAULT ? "m$L = new MutableLiveData<>()" : "m$L = new SingleLiveEvent<>()", fieldName)
+                    .addStatement(type == LiveDataType.DEFAULT ? "m$L = new MutableLiveData<>()" : "m$L = new SingleLiveEvent<>()", fieldName)
                     .endControlFlow()
                     .addStatement("return m$L", fieldName)
                     .build();

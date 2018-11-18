@@ -19,5 +19,5 @@ public @interface LiveData {
      * LiveDate类型
      * @return 类型
      */
-    LiveDateType type() default LiveDateType.DEFAULT;
+    LiveDataType type() default LiveDataType.DEFAULT;
 }

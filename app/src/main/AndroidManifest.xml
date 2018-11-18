@@ -19,7 +19,7 @@
 
         <activity android:name=".activity.TestActivity"/>
 
-        <activity android:name=".activity.PagingActivity"/>
+        <activity android:name=".activity.MediatorLiveDataActivity"/>
     </application>
 
 </manifest>

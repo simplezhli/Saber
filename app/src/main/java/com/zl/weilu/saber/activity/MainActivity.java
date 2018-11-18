@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void toPagingActivity(View view) {
-        startActivity(new Intent(MainActivity.this, PagingActivity.class));
+    public void toMediatorLiveDataActivity(View view) {
+        startActivity(new Intent(MainActivity.this, MediatorLiveDataActivity.class));
     }
 }

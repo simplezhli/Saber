@@ -148,13 +148,15 @@ public class BindViewModelProcessor extends BaseProcessor {
             String l = methodEntity.getMethodElement().getParameters().get(0).asType().toString();
             ParameterizedTypeName liveDataTypeName = null;
 
-            ClassName mClazz = null;
+            ClassName mClazz;
 
             int i = l.indexOf("<");
             if (i < 0){
                 mClazz = ClassName.bestGuess(l);
 
             }else {
+                mClazz = null;
+
                 String classType = l.substring(0, i);
 
                 int e = l.lastIndexOf(">");

@@ -6,12 +6,17 @@ package com.zl.weilu.saber.annotation;
 public enum LiveDataType {
 
     /**
-     * 默认模式
+     * 默认模式(MutableLiveData)
      */
     DEFAULT,
 
     /**
-     * 发送一次
+     * 中介模式(MediatorLiveData)
+     */
+    MEDIATOR,
+
+    /**
+     * 发送一次(SingleLiveEvent)
      */
     SINGLE
 }

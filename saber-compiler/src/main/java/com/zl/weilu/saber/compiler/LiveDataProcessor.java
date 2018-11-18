@@ -5,8 +5,11 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.TypeVariableName;
+import com.squareup.javapoet.WildcardTypeName;
 import com.zl.weilu.saber.annotation.AndroidViewModel;
 import com.zl.weilu.saber.annotation.LiveData;
 import com.zl.weilu.saber.annotation.LiveDataType;
@@ -48,6 +51,7 @@ public class LiveDataProcessor extends BaseProcessor {
         String className = classEntity.getElement().getSimpleName().toString() + "ViewModel";
 
         ClassName mutableLiveDataClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "MutableLiveData");
+        ClassName mediatorLiveDataClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "MediatorLiveData");
         ClassName singleLiveDataClazz = ClassName.get("com.zl.weilu.saber.api.event", "SingleLiveEvent");
         
         ClassName viewModelClazz;
@@ -87,13 +91,15 @@ public class LiveDataProcessor extends BaseProcessor {
             String l = fieldEntity.getTypeString();
             ParameterizedTypeName liveDataTypeName = null;
             
-            ClassName mClazz = null;
+            ClassName mClazz;
 
             int i = l.indexOf("<");
             if (i < 0){
                 mClazz = ClassName.bestGuess(l);
 
             }else {
+                mClazz = null;
+
                 String type = l.substring(0, i);
 
                 int e = l.lastIndexOf(">");
@@ -111,8 +117,26 @@ public class LiveDataProcessor extends BaseProcessor {
             }
 
             LiveDataType type = fieldEntity.getAnnotation(LiveData.class).type();
-            
-            ParameterizedTypeName typeName = ParameterizedTypeName.get(type == LiveDataType.DEFAULT ? mutableLiveDataClazz : singleLiveDataClazz, mClazz == null ? liveDataTypeName : mClazz);
+
+            String liveDataType;
+            ClassName liveDataTypeClassName;
+
+            switch (type){
+                case SINGLE:
+                    liveDataType = "m$L = new SingleLiveEvent<>()";
+                    liveDataTypeClassName = singleLiveDataClazz;
+                    break;
+                case MEDIATOR:
+                    liveDataType = "m$L = new MediatorLiveData<>()";
+                    liveDataTypeClassName = mediatorLiveDataClazz;
+                    break;
+                default:
+                    liveDataType = "m$L = new MutableLiveData<>()";
+                    liveDataTypeClassName = mutableLiveDataClazz;
+                    break;
+            }
+
+            ParameterizedTypeName typeName = ParameterizedTypeName.get(liveDataTypeClassName, mClazz == null ? liveDataTypeName : mClazz);
 
             field = FieldSpec.builder(typeName, "m" + fieldName, Modifier.PRIVATE)
                     .build();
@@ -122,7 +146,7 @@ public class LiveDataProcessor extends BaseProcessor {
                     .addModifiers(Modifier.PUBLIC)
                     .returns(field.type)
                     .beginControlFlow("if (m$L == null)", fieldName)
-                    .addStatement(type == LiveDataType.DEFAULT ? "m$L = new MutableLiveData<>()" : "m$L = new SingleLiveEvent<>()", fieldName)
+                    .addStatement(liveDataType, fieldName)
                     .endControlFlow()
                     .addStatement("return m$L", fieldName)
                     .build();
@@ -131,7 +155,7 @@ public class LiveDataProcessor extends BaseProcessor {
                     .methodBuilder("get" + fieldName + "Value")
                     .addModifiers(Modifier.PUBLIC)
                     .returns(mClazz == null ? liveDataTypeName : mClazz)
-                    .addStatement("return get$L().getValue()", fieldName)
+                    .addStatement("return this.get$L().getValue()", fieldName)
                     .build();
 
             MethodSpec setMethod = MethodSpec
@@ -161,6 +185,62 @@ public class LiveDataProcessor extends BaseProcessor {
                     .addMethod(getValue)
                     .addMethod(setMethod)
                     .addMethod(postMethod);
+
+            if (type == LiveDataType.MEDIATOR){
+                ClassName liveDataClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "LiveData");
+                ClassName observerClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "Observer");
+                ClassName mainThreadClazz = ClassName.get(useAndroidX ? "androidx.annotation" : "android.support.annotation", "MainThread");
+                ClassName nonNullClazz = ClassName.get(useAndroidX ? "androidx.annotation" : "android.support.annotation", "NonNull");
+
+
+                // S
+                ClassName mClass = ClassName.bestGuess("S");
+                // LiveData<S>
+                ParameterizedTypeName sName = ParameterizedTypeName.get(liveDataClazz, mClass);
+                // @NonNull LiveData<S> source
+                ParameterSpec liveDataParameterSpec = ParameterSpec.builder(sName, "source")
+                        .addAnnotation(nonNullClazz)
+                        .build();
+
+                // Observer<? super S>
+                ParameterizedTypeName observerName = ParameterizedTypeName.get(observerClazz, WildcardTypeName.supertypeOf(TypeVariableName.get("S")));
+                // @NonNull Observer<? super S> onChanged
+                ParameterSpec observerParameterSpec = ParameterSpec.builder(observerName, "onChanged")
+                        .addAnnotation(nonNullClazz)
+                        .build();
+
+
+                MethodSpec addSource = MethodSpec
+                        .methodBuilder("addSource")
+                        .addAnnotation(mainThreadClazz)
+                        .addModifiers(Modifier.PUBLIC)
+                        .addTypeVariable(TypeVariableName.get("S"))
+                        .returns(void.class)
+                        .addParameter(liveDataParameterSpec)
+                        .addParameter(observerParameterSpec)
+                        .beginControlFlow("if (this.m$L == null)", fieldName)
+                        .addStatement("return")
+                        .endControlFlow()
+                        .addStatement("this.m$L.addSource(source, onChanged)", fieldName)
+                        .build();
+
+
+                MethodSpec removeSource = MethodSpec
+                        .methodBuilder("removeSource")
+                        .addAnnotation(mainThreadClazz)
+                        .addModifiers(Modifier.PUBLIC)
+                        .addTypeVariable(TypeVariableName.get("S"))
+                        .returns(void.class)
+                        .addParameter(liveDataParameterSpec)
+                        .beginControlFlow("if (this.m$L == null)", fieldName)
+                        .addStatement("return")
+                        .endControlFlow()
+                        .addStatement("this.m$L.removeSource(source)", fieldName)
+                        .build();
+
+                builder.addMethod(addSource)
+                        .addMethod(removeSource);
+            }
         }
 
 

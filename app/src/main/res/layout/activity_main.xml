@@ -9,8 +9,8 @@
     
     <Button
         android:layout_marginBottom="100dp"
-        android:text="Paging例子"
-        android:onClick="toPagingActivity"
+        android:text="MediatorLiveData例子"
+        android:onClick="toMediatorLiveDataActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

@@ -4,11 +4,11 @@
 
 - 已适配AndroidX。
 
-- 支持 `ViewModel`、`AndroidViewModel` 的 `setValue`、`postValue`等常用方法。
+- 支持 `ViewModel`、`AndroidViewModel`。默认为 `ViewModel`）
 
-- 支持 `observe`、`observeForever` 两种观察模式。
+- 支持 `observe`、`observeForever` 两种观察模式。（默认为 `observe`）
 
-- 支持 `SingleLiveEvent`。（默认为 `MutableLiveData`）
+- 支持 `SingleLiveEvent`、`MediatorLiveData`、`MutableLiveData`。（默认为 `MutableLiveData`）
 
 - 支持事件总线的操作。
 
@@ -21,11 +21,11 @@
 添加依赖
 
 ```xml
-    implementation 'com.github.simplezhli.Saber:saber-api:0.2.0'
+    implementation 'com.github.simplezhli.Saber:saber-api:0.2.1'
     //AndroidX使用
-    implementation 'com.github.simplezhli.Saber:saberx-api:0.2.0'
+    implementation 'com.github.simplezhli.Saber:saberx-api:0.2.1'
 
-    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.2.0'
+    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.2.1'
 ```
 
 首先创建一个类，使用`@LiveData`注解标记你要保存的数据。注意这里的参数名称value，下面会用到。
@@ -82,15 +82,19 @@ public class SeekBar {
 }
 ```
 
-生成代码提供了ViewModel的常用操作。
+生成代码提供了LiveData的常用操作。
 
 - `setXXX()`要在主线程中调用。
 
 - `postXXX()`既可在主线程也可在子线程中调用。
 
-- `getXXX()`用于添加观察者。
+- `getXXX()`用于获取观察者。
 
 - `getXXXValue()`可以获取保存的数据。
+
+- `addSource()`用于监听LiveData。(MediatorLiveData专用)
+
+- `removeSource()`移除监听的LiveData。(MediatorLiveData专用)
 
 ### 1. 普通使用方法
 

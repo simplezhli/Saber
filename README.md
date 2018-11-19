@@ -1,5 +1,7 @@
 # Saber
 
+[![jitpack](https://jitpack.io/v/simplezhli/saber.svg)](https://jitpack.io/#simplezhli/saber) [![LICENSE](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/simplezhli/Saber/master/LICENSE) [![作者](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-weilu-orange.svg)](http://blog.csdn.net/qq_17766199)
+
 ## 本项目帮助你快速使用LiveData与ViewModel
 
 - 已适配AndroidX。

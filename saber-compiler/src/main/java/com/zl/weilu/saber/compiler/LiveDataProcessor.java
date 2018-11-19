@@ -194,17 +194,24 @@ public class LiveDataProcessor extends BaseProcessor {
 
 
                 // S
-                ClassName mClass = ClassName.bestGuess("S");
+                TypeVariableName mTypeVariable = TypeVariableName.get("S");
                 // LiveData<S>
-                ParameterizedTypeName sName = ParameterizedTypeName.get(liveDataClazz, mClass);
+                ParameterizedTypeName mLiveDataName = ParameterizedTypeName.get(liveDataClazz, mTypeVariable);
                 // @NonNull LiveData<S> source
-                ParameterSpec liveDataParameterSpec = ParameterSpec.builder(sName, "source")
+                ParameterSpec liveDataParameterSpec = ParameterSpec.builder(mLiveDataName, "source")
                         .addAnnotation(nonNullClazz)
                         .build();
 
-                // Observer<? super S>
-                ParameterizedTypeName observerName = ParameterizedTypeName.get(observerClazz, WildcardTypeName.supertypeOf(TypeVariableName.get("S")));
-                // @NonNull Observer<? super S> onChanged
+                ParameterizedTypeName observerName;
+                if (useAndroidX){
+                    // Observer<S>
+                    observerName = ParameterizedTypeName.get(observerClazz, WildcardTypeName.supertypeOf(mTypeVariable));
+                }else {
+                    // Observer<? super S>
+                    observerName = ParameterizedTypeName.get(observerClazz, mTypeVariable);
+                }
+
+                // @NonNull Observer<S> onChanged
                 ParameterSpec observerParameterSpec = ParameterSpec.builder(observerName, "onChanged")
                         .addAnnotation(nonNullClazz)
                         .build();

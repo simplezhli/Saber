@@ -21,11 +21,11 @@
 添加依赖
 
 ```xml
-    implementation 'com.github.simplezhli.Saber:saber-api:0.2.1'
+    implementation 'com.github.simplezhli.Saber:saber-api:0.2.2'
     //AndroidX使用
-    implementation 'com.github.simplezhli.Saber:saberx-api:0.2.1'
+    implementation 'com.github.simplezhli.Saber:saberx-api:0.2.2'
 
-    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.2.1'
+    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.2.2'
 ```
 
 首先创建一个类，使用`@LiveData`注解标记你要保存的数据。注意这里的参数名称value，下面会用到。

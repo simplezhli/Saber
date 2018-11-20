@@ -7,6 +7,7 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 import com.squareup.javapoet.WildcardTypeName;
@@ -87,34 +88,7 @@ public class LiveDataProcessor extends BaseProcessor {
             FieldSpec field;
             String fieldName = StringUtils.upperCase(fieldEntity.getFieldName());
 
-            String l = fieldEntity.getTypeString();
-            ParameterizedTypeName liveDataTypeName = null;
-            
-            ClassName mClazz;
-
-            int i = l.indexOf("<");
-            if (i < 0){
-                mClazz = ClassName.bestGuess(l);
-
-            }else {
-                mClazz = null;
-
-                String type = l.substring(0, i);
-
-                int e = l.lastIndexOf(">");
-
-                String[] types = l.substring(i + 1, e).split(",");
-                
-                if (types.length == 1){
-                    liveDataTypeName = ParameterizedTypeName.get(ClassName.bestGuess(type), ClassName.bestGuess(types[0]));
-                }
-
-                if (types.length == 2){
-                    liveDataTypeName = ParameterizedTypeName.get(ClassName.bestGuess(type), ClassName.bestGuess(types[0]), ClassName.bestGuess(types[1]));
-                }
-                
-            }
-
+            TypeName T = ClassName.get(fieldEntity.getTypeMirror());
             LiveDataType type = fieldEntity.getAnnotation(LiveData.class).type();
 
             String liveDataType;
@@ -135,7 +109,7 @@ public class LiveDataProcessor extends BaseProcessor {
                     break;
             }
 
-            ParameterizedTypeName typeName = ParameterizedTypeName.get(liveDataTypeClassName, mClazz == null ? liveDataTypeName : mClazz);
+            ParameterizedTypeName typeName = ParameterizedTypeName.get(liveDataTypeClassName, T);
 
             field = FieldSpec.builder(typeName, "m" + fieldName, Modifier.PRIVATE)
                     .build();
@@ -153,7 +127,7 @@ public class LiveDataProcessor extends BaseProcessor {
             MethodSpec getValue = MethodSpec
                     .methodBuilder("get" + fieldName + "Value")
                     .addModifiers(Modifier.PUBLIC)
-                    .returns(mClazz == null ? liveDataTypeName : mClazz)
+                    .returns(T)
                     .addStatement("return this.get$L().getValue()", fieldName)
                     .build();
 
@@ -161,7 +135,7 @@ public class LiveDataProcessor extends BaseProcessor {
                     .methodBuilder("set" + fieldName)
                     .addModifiers(Modifier.PUBLIC)
                     .returns(void.class)
-                    .addParameter(mClazz == null ? liveDataTypeName : mClazz, "mValue")
+                    .addParameter(T, "mValue")
                     .beginControlFlow("if (this.m$L == null)", fieldName)
                     .addStatement("return")
                     .endControlFlow()
@@ -172,7 +146,7 @@ public class LiveDataProcessor extends BaseProcessor {
                     .methodBuilder("post" + fieldName)
                     .addModifiers(Modifier.PUBLIC)
                     .returns(void.class)
-                    .addParameter(mClazz == null ? liveDataTypeName : mClazz, "mValue")
+                    .addParameter(T, "mValue")
                     .beginControlFlow("if (this.m$L == null)", fieldName)
                     .addStatement("return")
                     .endControlFlow()
@@ -190,7 +164,6 @@ public class LiveDataProcessor extends BaseProcessor {
                 ClassName observerClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "Observer");
                 ClassName mainThreadClazz = ClassName.get(useAndroidX ? "androidx.annotation" : "android.support.annotation", "MainThread");
                 ClassName nonNullClazz = ClassName.get(useAndroidX ? "androidx.annotation" : "android.support.annotation", "NonNull");
-
 
                 // S
                 TypeVariableName mTypeVariable = TypeVariableName.get("S");

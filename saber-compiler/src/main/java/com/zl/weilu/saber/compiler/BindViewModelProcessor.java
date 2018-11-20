@@ -6,6 +6,7 @@ import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.zl.weilu.saber.annotation.BindViewModel;
 import com.zl.weilu.saber.annotation.ObserveType;
@@ -145,39 +146,14 @@ public class BindViewModelProcessor extends BaseProcessor {
 
             ObserveType type = methodEntity.getAnnotation(OnChange.class).type();
 
-            String l = methodEntity.getMethodElement().getParameters().get(0).asType().toString();
-            ParameterizedTypeName liveDataTypeName = null;
-
-            ClassName mClazz;
-
-            int i = l.indexOf("<");
-            if (i < 0){
-                mClazz = ClassName.bestGuess(l);
-
-            }else {
-                mClazz = null;
-
-                String classType = l.substring(0, i);
-
-                int e = l.lastIndexOf(">");
-
-                String[] types = l.substring(i + 1, e).split(",");
-
-                if (types.length == 1){
-                    liveDataTypeName = ParameterizedTypeName.get(ClassName.bestGuess(classType), ClassName.bestGuess(types[0]));
-                }
-
-                if (types.length == 2){
-                    liveDataTypeName = ParameterizedTypeName.get(ClassName.bestGuess(classType), ClassName.bestGuess(types[0]), ClassName.bestGuess(types[1]));
-                }
-            }
+            TypeName T = ClassName.get(methodEntity.getMethodElement().getParameters().get(0).asType());
 
             TypeSpec comparator = TypeSpec.anonymousClassBuilder("")
-                    .addSuperinterface(ParameterizedTypeName.get(observerClazz, mClazz == null ? liveDataTypeName : mClazz))
+                    .addSuperinterface(ParameterizedTypeName.get(observerClazz, T))
                     .addMethod(MethodSpec.methodBuilder("onChanged")
                             .addAnnotation(Override.class)
                             .addModifiers(Modifier.PUBLIC)
-                            .addParameter(mClazz == null ? liveDataTypeName : mClazz, "value")
+                            .addParameter(T, "value")
                             .returns(void.class)
                             .addStatement("target.$L(value)", methodEntity.getMethodName())
                             .build())
@@ -189,7 +165,7 @@ public class BindViewModelProcessor extends BaseProcessor {
                 case DEFAULT:
                     if (isBus){
                         initBuilder.addStatement("$T.get().with($S, $T.class).observe(target, $L)",
-                                liveDataBusClazz, model, mClazz == null ? liveDataTypeName : mClazz, comparator);
+                                liveDataBusClazz, model, T, comparator);
                     }else {
                         initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field_) + "().observe(target, $L)",
                                 model, comparator);
@@ -211,10 +187,10 @@ public class BindViewModelProcessor extends BaseProcessor {
                     
                     if (isBus){
                         initBuilder.addStatement("$T.get().with($S, $T.class).observeForever("+ model + "Observer)",
-                                liveDataBusClazz, model, mClazz == null ? liveDataTypeName : mClazz);
+                                liveDataBusClazz, model, T);
                         
                         unbindMethodBuilder.addStatement("$T.get().with($S, $T.class).removeObserver("+ model + "Observer)",
-                                liveDataBusClazz, model, mClazz == null ? liveDataTypeName : mClazz);
+                                liveDataBusClazz, model, T);
                     }else {
                         initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field_) + 
                                         "().observeForever("+ model + "Observer)", model);

@@ -62,7 +62,6 @@ public class LiveDataProcessor extends BaseProcessor {
             viewModelClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "AndroidViewModel");
         }
 
-
         TypeSpec.Builder builder = TypeSpec
                 .classBuilder(className)
                 .addModifiers(Modifier.PUBLIC)
@@ -215,10 +214,9 @@ public class LiveDataProcessor extends BaseProcessor {
                 ParameterSpec observerParameterSpec = ParameterSpec.builder(observerName, "onChanged")
                         .addAnnotation(nonNullClazz)
                         .build();
-
-
+                
                 MethodSpec addSource = MethodSpec
-                        .methodBuilder("addSource")
+                        .methodBuilder("add" + fieldName + "Source")
                         .addAnnotation(mainThreadClazz)
                         .addModifiers(Modifier.PUBLIC)
                         .addTypeVariable(TypeVariableName.get("S"))
@@ -230,10 +228,9 @@ public class LiveDataProcessor extends BaseProcessor {
                         .endControlFlow()
                         .addStatement("this.m$L.addSource(source, onChanged)", fieldName)
                         .build();
-
-
+                
                 MethodSpec removeSource = MethodSpec
-                        .methodBuilder("removeSource")
+                        .methodBuilder("remove" + fieldName + "Source")
                         .addAnnotation(mainThreadClazz)
                         .addModifiers(Modifier.PUBLIC)
                         .addTypeVariable(TypeVariableName.get("S"))

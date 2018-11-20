@@ -30,7 +30,7 @@ public class MediatorLiveDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mediator);
         Saber.bind(this);
 
-        mediatorTestViewModel.addSource(mSeekBarViewModel.getValue(), new Observer<Integer>() {
+        mediatorTestViewModel.addValueSource(mSeekBarViewModel.getValue(), new Observer<Integer>() {
 
             @Override
             public void onChanged(Integer integer) {
@@ -38,7 +38,7 @@ public class MediatorLiveDataActivity extends AppCompatActivity {
             }
         });
 
-        mediatorTestViewModel.addSource(mTimerViewModel.getTime(), new Observer<Long>() {
+        mediatorTestViewModel.addValueSource(mTimerViewModel.getTime(), new Observer<Long>() {
 
             @Override
             public void onChanged(Long aLong) {
@@ -61,7 +61,7 @@ public class MediatorLiveDataActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mediatorTestViewModel.removeSource(mSeekBarViewModel.getValue());
-        mediatorTestViewModel.removeSource(mTimerViewModel.getTime());
+        mediatorTestViewModel.removeValueSource(mSeekBarViewModel.getValue());
+        mediatorTestViewModel.removeValueSource(mTimerViewModel.getTime());
     }
 }

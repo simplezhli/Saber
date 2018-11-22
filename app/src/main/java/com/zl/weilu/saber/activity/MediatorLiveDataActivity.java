@@ -7,9 +7,13 @@ import com.zl.weilu.saber.R;
 import com.zl.weilu.saber.annotation.BindViewModel;
 import com.zl.weilu.saber.annotation.OnChange;
 import com.zl.weilu.saber.api.Saber;
+import com.zl.weilu.saber.bean.JavaBean;
+import com.zl.weilu.saber.viewmodel.JavaBeanViewModel;
 import com.zl.weilu.saber.viewmodel.MediatorTestViewModel;
 import com.zl.weilu.saber.viewmodel.SeekBarViewModel;
 import com.zl.weilu.saber.viewmodel.TimerViewModel;
+
+import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -20,7 +24,8 @@ public class MediatorLiveDataActivity extends AppCompatActivity {
     SeekBarViewModel mSeekBarViewModel;
     @BindViewModel
     TimerViewModel mTimerViewModel;
-
+    @BindViewModel
+    JavaBeanViewModel mJavaBeanViewModel;
     @BindViewModel
     MediatorTestViewModel mediatorTestViewModel;
 
@@ -56,6 +61,11 @@ public class MediatorLiveDataActivity extends AppCompatActivity {
     void setData(String value){
         // 输出 120 900 ，为倒序
         Log.d("MediatorActivity", value);
+    }
+
+    @OnChange(model = "mJavaBeanViewModel")
+    void setJavaBean(ArrayList<JavaBean> javaBean){
+        
     }
 
     @Override

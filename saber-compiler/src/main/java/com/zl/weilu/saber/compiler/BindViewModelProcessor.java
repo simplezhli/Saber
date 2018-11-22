@@ -77,6 +77,7 @@ public class BindViewModelProcessor extends BaseProcessor {
 
         MethodSpec.Builder unbindMethodBuilder = MethodSpec
                 .methodBuilder("unbind")
+                .addAnnotation(Override.class)
                 .addAnnotation(callSuperClazz)
                 .addAnnotation(uiThreadClazz)
                 .addModifiers(Modifier.PUBLIC)

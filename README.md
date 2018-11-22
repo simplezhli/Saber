@@ -39,6 +39,17 @@ public class SeekBar {
 }
 ```
 
+当然也可以直接标记你的JavaBean，来直接保存此类。那么参数名为类名的首字母小写：seekBar
+```java
+@LiveData
+public class SeekBar {
+
+    Integer value;
+}
+```
+
+使用`@LiveData(classType = LiveDataClassType.LIST)`可以指定对应的数据集合类型
+
 Build -- > Make Project 会生成代码如下：
 
 ```java

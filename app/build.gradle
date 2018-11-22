@@ -21,8 +21,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.0'
     testImplementation 'junit:junit:4.12'
-//    implementation 'com.github.simplezhli.Saber:saber-api:0.2.2'
-//    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.2.2'
+//    implementation 'com.github.simplezhli.Saber:saber-api:0.2.3'
+//    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.2.3'
     implementation project(':saberx-api')
     annotationProcessor project(':saber-compiler')
 }

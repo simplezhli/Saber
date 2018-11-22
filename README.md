@@ -6,6 +6,8 @@
 
 - 已适配AndroidX。
 
+- 支持Kotlin。
+
 - 支持 `ViewModel`、`AndroidViewModel`。默认为 `ViewModel`）
 
 - 支持 `observe`、`observeForever` 两种观察模式。（默认为 `observe`）
@@ -23,11 +25,11 @@
 添加依赖
 
 ```xml
-    implementation 'com.github.simplezhli.Saber:saber-api:0.2.2'
+    implementation 'com.github.simplezhli.Saber:saber-api:0.2.3'
     //AndroidX使用
-    implementation 'com.github.simplezhli.Saber:saberx-api:0.2.2'
+    implementation 'com.github.simplezhli.Saber:saberx-api:0.2.3'
 
-    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.2.2'
+    annotationProcessor 'com.github.simplezhli.Saber:saber-compiler:0.2.3'
 ```
 
 首先创建一个类，使用`@LiveData`注解标记你要保存的数据。注意这里的参数名称value，下面会用到。
@@ -181,6 +183,31 @@ public class TestFragment extends Fragment {
 
 更多的使用方法可以参看本项目demo。
 
+### 3.Kotlin环境使用注意事项
+
+1.将以下代码添加到 `build.gradle` 文件中，保证生成代码的正确性。
+
+```xml
+
+    kapt {
+        correctErrorTypes = true
+    }
+
+```
+
+2.Kotlin默认会生成set/get方法，并把属性设置为`private` 所以只要保证Kotlin中字段可见性不是`private`即可，简单解决可以在字段上添加 `@JvmField`，也可以使用`lateinit`.
+
+```kotlin
+
+    @BindViewModel
+    lateinit var mViewModel: TestViewModel
+    
+    //或
+    
+    @JvmField
+    @BindViewModel
+    var mViewModel: TestViewModel? = null
+```
 
 ## Thanks For
 

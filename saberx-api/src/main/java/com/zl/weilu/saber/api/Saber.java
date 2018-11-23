@@ -65,7 +65,9 @@ public class Saber {
             return bindingCtor;
         }
         String clsName = cls.getName();
-        if (clsName.startsWith("android.") || clsName.startsWith("java.")) {
+        // Stop search at androidx.
+        if (clsName.startsWith("android.") || clsName.startsWith("java.") || clsName.startsWith("androidx.")) {
+            // MISS: Reached framework class. Abandoning search.
             return null;
         }
         try {

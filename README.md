@@ -24,7 +24,7 @@
 
 添加依赖
 
-```xml
+```gradle
     implementation 'com.github.simplezhli.saber:saber-api:0.2.3'
     //AndroidX使用
     implementation 'com.github.simplezhli.saber:saberx-api:0.2.3'
@@ -187,7 +187,7 @@ public class TestFragment extends Fragment {
 
 1.将以下代码添加到 `build.gradle` 文件中，保证生成代码的正确性。
 
-```xml
+```gradle
 
     kapt {
         correctErrorTypes = true

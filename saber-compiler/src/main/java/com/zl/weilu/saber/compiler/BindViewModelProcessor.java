@@ -136,7 +136,7 @@ public class BindViewModelProcessor extends BaseProcessor {
         ClassName observerClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "Observer");
         
         for (MethodEntity methodEntity : methods.values()){
-            String field_ = methodEntity.getParameterElements().get(0).toString();
+            String field1 = methodEntity.getParameterElements().get(0).toString();
             String model = methodEntity.getAnnotation(OnChange.class).model();
             boolean isBus = methodEntity.getAnnotation(OnChange.class).isBus();
 
@@ -147,14 +147,14 @@ public class BindViewModelProcessor extends BaseProcessor {
 
             ObserveType type = methodEntity.getAnnotation(OnChange.class).type();
 
-            TypeName T = ClassName.get(methodEntity.getMethodElement().getParameters().get(0).asType());
+            TypeName generic = ClassName.get(methodEntity.getMethodElement().getParameters().get(0).asType());
 
             TypeSpec comparator = TypeSpec.anonymousClassBuilder("")
-                    .addSuperinterface(ParameterizedTypeName.get(observerClazz, T))
+                    .addSuperinterface(ParameterizedTypeName.get(observerClazz, generic))
                     .addMethod(MethodSpec.methodBuilder("onChanged")
                             .addAnnotation(Override.class)
                             .addModifiers(Modifier.PUBLIC)
-                            .addParameter(T, "value")
+                            .addParameter(generic, "value")
                             .returns(void.class)
                             .addStatement("target.$L(value)", methodEntity.getMethodName())
                             .build())
@@ -166,9 +166,9 @@ public class BindViewModelProcessor extends BaseProcessor {
                 case DEFAULT:
                     if (isBus){
                         initBuilder.addStatement("$T.get().with($S, $T.class).observe(target, $L)",
-                                liveDataBusClazz, model, T, comparator);
+                                liveDataBusClazz, model, generic, comparator);
                     }else {
-                        initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field_) + "().observe(target, $L)",
+                        initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field1) + "().observe(target, $L)",
                                 model, comparator);
                     }
 
@@ -188,15 +188,15 @@ public class BindViewModelProcessor extends BaseProcessor {
                     
                     if (isBus){
                         initBuilder.addStatement("$T.get().with($S, $T.class).observeForever("+ model + "Observer)",
-                                liveDataBusClazz, model, T);
+                                liveDataBusClazz, model, generic);
                         
                         unbindMethodBuilder.addStatement("$T.get().with($S, $T.class).removeObserver("+ model + "Observer)",
-                                liveDataBusClazz, model, T);
+                                liveDataBusClazz, model, generic);
                     }else {
-                        initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field_) + 
+                        initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field1) + 
                                         "().observeForever("+ model + "Observer)", model);
 
-                        unbindMethodBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field_) + 
+                        unbindMethodBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field1) + 
                                         "().removeObserver("+ model + "Observer)", model);
                     }
 

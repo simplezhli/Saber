@@ -14,6 +14,8 @@
 
 - 支持 `SingleLiveEvent`、`MediatorLiveData`、`MutableLiveData`。（默认为 `MutableLiveData`）
 
+- 支持自定义`LiveData`类型
+
 - 支持事件总线的操作。
 
 ## 详细介绍
@@ -95,6 +97,17 @@ public class SeekBar {
     @LiveData
     Integer value;
 }
+```
+
+自定义`LiveData`类型
+
+```java
+public class Single {
+
+    @LiveData(type = LiveDataType.OTHER, liveDataType = XXXLiveData.class)
+    Integer value;
+}
+
 ```
 
 生成代码提供了LiveData的常用操作。

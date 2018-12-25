@@ -57,11 +57,11 @@ public class JavaPoetTypeUtils {
         return ParameterizedTypeName.get(HASH_SET_TYPE, genericType);
     }
 
-    public static ParameterizedTypeName mapType(ClassName K, ClassName V) {
-        return ParameterizedTypeName.get(MAP_TYPE, K, V);
+    public static ParameterizedTypeName mapType(ClassName key, ClassName value) {
+        return ParameterizedTypeName.get(MAP_TYPE, key, value);
     }
 
-    public static ParameterizedTypeName hashMapType(ClassName K, ClassName V) {
-        return ParameterizedTypeName.get(HASH_MAP_TYPE, K, V);
+    public static ParameterizedTypeName hashMapType(ClassName key, ClassName value) {
+        return ParameterizedTypeName.get(HASH_MAP_TYPE, key, value);
     }
 }

@@ -22,8 +22,14 @@ public @interface LiveData {
     LiveDataType type() default LiveDataType.DEFAULT;
 
     /**
-     * LiveDate保存数据类型（list, set, map）
+     * LiveDate保存数据类型（list, set, map, 默认为标记类型）
      * @return 数据类型
      */
     LiveDataClassType classType() default LiveDataClassType.DEFAULT;
+
+    /**
+     * LiveDataType类型为OTHER时生效, 必须指定类型！！
+     * @return 具体类型
+     */
+    Class<?> liveDataType() default Object.class;
 }

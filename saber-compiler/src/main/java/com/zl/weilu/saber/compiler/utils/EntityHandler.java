@@ -24,7 +24,6 @@ import javax.tools.Diagnostic;
  */
 
 public class EntityHandler {
-    //    ProcessingEnvironment env;
     private Elements elementUtils;
     private Types typeUtils;
     private Filer filer;

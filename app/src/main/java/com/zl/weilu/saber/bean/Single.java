@@ -10,6 +10,8 @@ import com.zl.weilu.saber.annotation.LiveDataType;
  */
 public class Single {
 
+//    @LiveData(type = LiveDataType.OTHER, liveDataType = SingleLiveEvent.class)
+//    或
     @LiveData(type = LiveDataType.SINGLE)
     Integer value;
 }

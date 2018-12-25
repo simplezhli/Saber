@@ -18,5 +18,10 @@ public enum LiveDataType {
     /**
      * 发送一次(SingleLiveEvent)
      */
-    SINGLE
+    SINGLE,
+
+    /**
+     * 其他（可自定义）
+     */
+    OTHER
 }

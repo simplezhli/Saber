@@ -1,7 +1,9 @@
 package com.zl.weilu.saber.compiler;
 
 import com.google.auto.service.AutoService;
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -55,11 +57,15 @@ public class BindViewModelProcessor extends BaseProcessor {
         ClassName activityClazz = ClassName.bestGuess(classEntity.getClassQualifiedName());
         ClassName uiThreadClazz = ClassName.get(useAndroidX ? "androidx.annotation" : "android.support.annotation", "UiThread");
         ClassName callSuperClazz = ClassName.get(useAndroidX ? "androidx.annotation" : "android.support.annotation", "CallSuper");
-        ClassName exceptionClazz = ClassName.get("java.lang", "IllegalStateException");
-
+//        ClassName exceptionClazz = ClassName.get("java.lang", "IllegalStateException");
+        ClassName lifecycleObserverClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "LifecycleObserver");
+        ClassName lifecycleEventClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "OnLifecycleEvent");
+        ClassName lifecycleClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "Lifecycle");
+        
         TypeSpec.Builder builder = TypeSpec
                 .classBuilder(className)
                 .addSuperinterface(unBinderClazz)
+                .addSuperinterface(lifecycleObserverClazz)
                 .addModifiers(Modifier.PUBLIC);
 
         FieldSpec field = FieldSpec
@@ -75,16 +81,22 @@ public class BindViewModelProcessor extends BaseProcessor {
                 .addStatement("init()")
                 .build();
 
+        AnnotationSpec.Builder annotationBuilder = AnnotationSpec.builder(lifecycleEventClazz);
+        CodeBlock.Builder codeBlockBuilder = CodeBlock.builder().add("$T.Event.ON_DESTROY", lifecycleClazz);
+        annotationBuilder.addMember("value", codeBlockBuilder.build());
+        
         MethodSpec.Builder unbindMethodBuilder = MethodSpec
                 .methodBuilder("unbind")
                 .addAnnotation(Override.class)
                 .addAnnotation(callSuperClazz)
                 .addAnnotation(uiThreadClazz)
+                .addAnnotation(annotationBuilder.build())
                 .addModifiers(Modifier.PUBLIC)
                 .returns(void.class)
                 .addStatement("$T target = this.target", activityClazz)
                 .beginControlFlow("if (target == null)")
-                .addStatement("throw new $T(\"Bindings already cleared.\")", exceptionClazz)
+//                .addStatement("throw new $T(\"Bindings already cleared.\")", exceptionClazz)
+                .addStatement("return")
                 .endControlFlow()
                 .addStatement("this.target = null");
 
@@ -98,6 +110,8 @@ public class BindViewModelProcessor extends BaseProcessor {
                 .addModifiers(Modifier.PRIVATE)
                 .returns(void.class);
 
+        initBuilder.addStatement("target.getLifecycle().addObserver(this)");
+        
         for (FieldEntity fieldEntity : fields.values()){
             String fieldName = fieldEntity.getFieldName();
             String key = fieldEntity.getAnnotation(BindViewModel.class).key();

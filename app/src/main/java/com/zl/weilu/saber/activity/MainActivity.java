@@ -11,7 +11,6 @@ import com.zl.weilu.saber.R;
 import com.zl.weilu.saber.annotation.BindViewModel;
 import com.zl.weilu.saber.annotation.OnChange;
 import com.zl.weilu.saber.api.Saber;
-import com.zl.weilu.saber.api.UnBinder;
 import com.zl.weilu.saber.viewmodel.LiveDataTimerViewModel;
 import com.zl.weilu.saber.viewmodel.SingleViewModel;
 
@@ -22,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
     private SeekBar mSeekBar;
-    private UnBinder mUnBinder;
     
     @BindViewModel
     LiveDataTimerViewModel mTimerViewModel;
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) { }
         });
 
-        mUnBinder = Saber.bind(this);
+        Saber.bind(this);
     }
 
     @OnChange(model = "mTimerViewModel")
@@ -94,14 +92,6 @@ public class MainActivity extends AppCompatActivity {
     @OnChange(model = "key_name", isBus = true)
     void liveDataBus(String value){
         Log.d("MainActivity", "LiveDataBus接收到的值：" +value);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mUnBinder != null){
-            mUnBinder.unbind();
-        }
     }
 
     public void toMediatorLiveDataActivity(View view) {

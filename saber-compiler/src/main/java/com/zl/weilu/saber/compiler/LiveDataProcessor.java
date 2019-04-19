@@ -67,7 +67,11 @@ public class LiveDataProcessor extends BaseProcessor {
         AndroidViewModel viewModel = classEntity.getAnnotation(AndroidViewModel.class);
         LiveData liveData = classEntity.getAnnotation(LiveData.class);
         /*类名*/
-        String className = classEntity.getElement().getSimpleName().toString() + "ViewModel";
+        String className = classEntity.getElement().getSimpleName().toString();
+        
+        if (!className.endsWith("Model")){
+            className += "ViewModel";
+        }
         
         ClassName viewModelClazz;
 

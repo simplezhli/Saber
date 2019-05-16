@@ -26,6 +26,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api "androidx.lifecycle:lifecycle-extensions:2.0.0"
+    api 'com.jeremyliao:live-event-bus-x:1.4.2'
     testImplementation 'junit:junit:4.12'
     api project(':saber-annotation')
 }

@@ -21,6 +21,13 @@ public @interface OnChange {
     boolean isBus() default false;
 
     /**
+     * 是否是Sticky模式
+     * 当isBus为true时生效
+     * @return
+     */
+    boolean isSticky() default false;
+
+    /**
      * 监听变化model名称,
      * 当isBus为true时，用于key。
      * @return model名称

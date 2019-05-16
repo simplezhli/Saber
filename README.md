@@ -8,15 +8,17 @@
 
 - 支持Kotlin。
 
-- 支持 `ViewModel`、`AndroidViewModel`。默认为 `ViewModel`）
+- 支持 `ViewModel`、`AndroidViewModel`。（默认为 `ViewModel`）
 
 - 支持 `observe`、`observeForever` 两种观察模式。（默认为 `observe`）
 
 - 支持 `SingleLiveEvent`、`MediatorLiveData`、`MutableLiveData`。（默认为 `MutableLiveData`）
 
-- 支持自定义`LiveData`类型
+- 支持自定义`LiveData`类型。
 
 - 支持事件总线的操作。
+
+- Forever模式自动取消订阅。
 
 ## 详细介绍
 
@@ -178,7 +180,7 @@ public class TestFragment extends Fragment {
 
 所以一旦需要互通的Fragment类名或包名不一致，就无法数据共享。这时可以指定key值：`@BindViewModel(key = "value")`
 
-### 2. 事件总线使用方法
+### 2. 事件总线使用方法，[详细用法参看LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)
 
 ```java
     @OnChange(model = "key_name", isBus = true)
@@ -190,7 +192,7 @@ public class TestFragment extends Fragment {
 发送：
 
 ```java
-    LiveDataBus.get().with("key_name").postValue("value");
+    LiveEventBus.get().with("key_name").postValue("value");
 ```
 
 
@@ -228,7 +230,7 @@ public class TestFragment extends Fragment {
 
 - [在 SnackBar，Navigation 和其他事件中使用 LiveData](https://juejin.im/post/5b2b1b2cf265da5952314b63)
 
-- [LiveDataBus](https://github.com/JeremyLiao/LiveDataBus)
+- [LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)
 
 ## License
 

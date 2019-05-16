@@ -6,12 +6,12 @@ package com.zl.weilu.saber.annotation;
 public enum ObserveType {
 
     /**
-     * 默认模式
+     * 默认模式（感知生命周期）
      */
     DEFAULT,
 
     /**
-     * 永久模式
+     * 全局模式
      */
     FOREVER
 }

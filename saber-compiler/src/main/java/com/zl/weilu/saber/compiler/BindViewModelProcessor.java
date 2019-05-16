@@ -153,7 +153,7 @@ public class BindViewModelProcessor extends BaseProcessor {
             String field1 = methodEntity.getParameterElements().get(0).toString();
             String model = methodEntity.getAnnotation(OnChange.class).model();
             boolean isBus = methodEntity.getAnnotation(OnChange.class).isBus();
-
+            boolean isSticky = methodEntity.getAnnotation(OnChange.class).isSticky();
             if (StringUtils.isEmpty(model)) {
                 throw new IllegalArgumentException(
                         String.format("%s 中的 %s方法 model为空!", classEntity.getClassSimpleName(), methodEntity.getMethodName()));
@@ -174,13 +174,19 @@ public class BindViewModelProcessor extends BaseProcessor {
                             .build())
                     .build();
 
-            ClassName liveDataBusClazz = ClassName.get("com.zl.weilu.saber.api", "LiveDataBus");
+            ClassName liveDataBusClazz = ClassName.get("com.jeremyliao.liveeventbus", "LiveEventBus");
             
             switch (type){
                 case DEFAULT:
                     if (isBus){
-                        initBuilder.addStatement("$T.get().with($S, $T.class).observe(target, $L)",
-                                liveDataBusClazz, model, generic, comparator);
+                        if (isSticky){
+                            initBuilder.addStatement("$T.get().with($S, $T.class).observeSticky(target, $L)",
+                                    liveDataBusClazz, model, generic, comparator);
+                        }else {
+                            initBuilder.addStatement("$T.get().with($S, $T.class).observe(target, $L)",
+                                    liveDataBusClazz, model, generic, comparator);
+                        }
+                        
                     }else {
                         initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field1) + "().observe(target, $L)",
                                 model, comparator);
@@ -201,8 +207,14 @@ public class BindViewModelProcessor extends BaseProcessor {
                     initBuilder.addStatement(model + "Observer = $L", comparator);
                     
                     if (isBus){
-                        initBuilder.addStatement("$T.get().with($S, $T.class).observeForever("+ model + "Observer)",
-                                liveDataBusClazz, model, generic);
+
+                        if (isSticky){
+                            initBuilder.addStatement("$T.get().with($S, $T.class).observeStickyForever("+ model + "Observer)",
+                                    liveDataBusClazz, model, generic);
+                        }else {
+                            initBuilder.addStatement("$T.get().with($S, $T.class).observeForever("+ model + "Observer)",
+                                    liveDataBusClazz, model, generic);
+                        }
                         
                         unbindMethodBuilder.addStatement("$T.get().with($S, $T.class).removeObserver("+ model + "Observer)",
                                 liveDataBusClazz, model, generic);

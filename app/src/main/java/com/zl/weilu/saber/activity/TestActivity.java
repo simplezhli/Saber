@@ -3,6 +3,7 @@ package com.zl.weilu.saber.activity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.jeremyliao.liveeventbus.LiveEventBus;
 import com.zl.weilu.saber.R;
 import com.zl.weilu.saber.annotation.BindViewModel;
 import com.zl.weilu.saber.annotation.ObserveType;
@@ -25,6 +26,7 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         Saber.bind(this);
+        LiveEventBus.get().with("key_name").postDelay("----1111", 2000);
     }
 
     // 使用observeForever

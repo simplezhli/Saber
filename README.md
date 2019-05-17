@@ -224,6 +224,16 @@ public class TestFragment extends Fragment {
     var mViewModel: TestViewModel? = null
 ```
 
+## TODO
+
+1.因为现有的`@OnChange`注解承载的功能过多，不易使用。后面会将`EventBus`功能从中提出，添加一个新的注解（或许叫做`@LiveEventBus`）。
+
+2.有什么好的建议或者功能欢迎提Issues。
+
+## 版本变化
+
+- [点击查看](https://github.com/simplezhli/Saber/releases)
+
 ## Thanks For
 
 - [butterknife](https://github.com/JakeWharton/butterknife)

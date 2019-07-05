@@ -11,6 +11,7 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.zl.weilu.saber.annotation.BindViewModel;
+import com.zl.weilu.saber.annotation.LiveEventBus;
 import com.zl.weilu.saber.annotation.ObserveType;
 import com.zl.weilu.saber.annotation.OnChange;
 import com.zl.weilu.saber.compiler.utils.BaseProcessor;
@@ -33,7 +34,7 @@ public class BindViewModelProcessor extends BaseProcessor {
 
     @Override
     protected Class[] getSupportedAnnotations() {
-        return new Class[]{BindViewModel.class, OnChange.class};
+        return new Class[]{BindViewModel.class, OnChange.class, LiveEventBus.class};
     }
 
     @Override
@@ -151,15 +152,24 @@ public class BindViewModelProcessor extends BaseProcessor {
         
         for (MethodEntity methodEntity : methods.values()){
             String field1 = methodEntity.getParameterElements().get(0).toString();
-            String model = methodEntity.getAnnotation(OnChange.class).model();
-            boolean isBus = methodEntity.getAnnotation(OnChange.class).isBus();
-            boolean isSticky = methodEntity.getAnnotation(OnChange.class).isSticky();
+            String model;
+            boolean isBus;
+            boolean isSticky = false;
+            ObserveType type;
+            if (methodEntity.getAnnotation(OnChange.class) == null){
+                model = methodEntity.getAnnotation(LiveEventBus.class).key();
+                isSticky = methodEntity.getAnnotation(LiveEventBus.class).isSticky();
+                type = methodEntity.getAnnotation(LiveEventBus.class).type();
+                isBus = true;
+            }else {
+                model = methodEntity.getAnnotation(OnChange.class).model();
+                type = methodEntity.getAnnotation(OnChange.class).type();
+                isBus = false;
+            }
             if (StringUtils.isEmpty(model)) {
                 throw new IllegalArgumentException(
                         String.format("%s 中的 %s方法 model为空!", classEntity.getClassSimpleName(), methodEntity.getMethodName()));
             }
-
-            ObserveType type = methodEntity.getAnnotation(OnChange.class).type();
 
             TypeName generic = ClassName.get(methodEntity.getMethodElement().getParameters().get(0).asType());
 

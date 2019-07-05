@@ -183,7 +183,7 @@ public class TestFragment extends Fragment {
 ### 2. 事件总线使用方法，[详细用法参看LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)
 
 ```java
-    @OnChange(model = "key_name", isBus = true)
+    @LiveEventBus(model = "key_name")
     void liveDataBus(String value){
         
     }
@@ -226,7 +226,7 @@ public class TestFragment extends Fragment {
 
 ## TODO
 
-1.因为现有的`@OnChange`注解承载的功能过多，不易使用。后面会将`EventBus`功能从中提出，添加一个新的注解（或许叫做`@LiveEventBus`）。
+1.~~因为现有的`@OnChange`注解承载的功能过多，不易使用。后面会将`EventBus`功能从中提出，添加一个新的注解（或许叫做`@LiveEventBus`）。~~
 
 2.有什么好的建议或者功能欢迎提Issues。
 

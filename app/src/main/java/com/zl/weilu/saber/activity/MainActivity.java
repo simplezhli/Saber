@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.zl.weilu.saber.R;
 import com.zl.weilu.saber.annotation.BindViewModel;
+import com.zl.weilu.saber.annotation.LiveEventBus;
 import com.zl.weilu.saber.annotation.ObserveType;
 import com.zl.weilu.saber.annotation.OnChange;
 import com.zl.weilu.saber.api.Saber;
@@ -87,12 +88,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * isBus = true 表示使用事件总线方式
      * isSticky = true 表示使用Sticky模式
      * type = ObserveType.FOREVER 使用Forever模式，默认具有生命周期感知能力。
      * 可以使用LiveEventBus.get().with("key_name").postValue("") 来发送事件。
      * */
-    @OnChange(model = "key_name", isBus = true, isSticky = true, type = ObserveType.FOREVER)
+    @LiveEventBus(key = "key_name", isSticky = true, type = ObserveType.FOREVER)
     void liveDataBus(String value){
         Log.d("MainActivity", "LiveDataBus接收到的值：" +value);
     }

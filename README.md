@@ -6,7 +6,7 @@
 
 - 已适配AndroidX。
 
-- 支持Kotlin。
+- 支持Kotlin。（Int、Boolean等基础类型暂不支持。可使用对象包裹基础类型使用。）
 
 - 支持 `ViewModel`、`AndroidViewModel`。（默认为 `ViewModel`）
 

@@ -7,11 +7,23 @@ import com.zl.weilu.saber.annotation.LiveData
  * @Author: weilu
  * @Time: 2019/8/30 0030 10:34.
  */
-@LiveData
+
 class KotlinBean {
 
-    // Int、Boolean等基础类型暂不支持。可使用对象包裹基础类型使用。
-    var age: Long = 0
-    var sex: Boolean? = false
-    
+    @LiveData
+    var i: Int = 0
+    @LiveData
+    var s: Short = 0
+    @LiveData
+    var bt: Byte = 0
+    @LiveData
+    var c: Char = 's'
+    @LiveData
+    var f: Float = 0f
+    @LiveData
+    var d: Double = 0.0
+    @LiveData
+    var l: Long = 0
+    @LiveData
+    var b: Boolean? = false
 }

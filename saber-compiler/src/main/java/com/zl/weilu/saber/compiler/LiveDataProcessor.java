@@ -196,6 +196,25 @@ public class LiveDataProcessor extends BaseProcessor {
                 break;
         }
 
+        String name = valueTypeName.toString();
+        /// 适配kotlin基础类型
+        if ("boolean".equals(name)){
+            valueTypeName = ClassName.get("java.lang", "Boolean");
+        } else if ("byte".equals(name)){
+            valueTypeName = ClassName.get("java.lang", "Byte");
+        } else if ("short".equals(name)){
+            valueTypeName = ClassName.get("java.lang", "Short");
+        } else if ("int".equals(name)){
+            valueTypeName = ClassName.get("java.lang", "Integer");
+        } else if ("long".equals(name)){
+            valueTypeName = ClassName.get("java.lang", "Long");
+        } else if ("char".equals(name)){
+            valueTypeName = ClassName.get("java.lang", "Character");
+        } else if ("float".equals(name)){
+            valueTypeName = ClassName.get("java.lang", "Float");
+        } else if ("double".equals(name)){
+            valueTypeName = ClassName.get("java.lang", "Double");
+        }
         ParameterizedTypeName typeName = ParameterizedTypeName.get(liveDataTypeClassName, valueTypeName);
 
         FieldSpec field = FieldSpec.builder(typeName, "m" + fieldName, Modifier.PRIVATE)

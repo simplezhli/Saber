@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, TestActivity.class));
+                startActivity(new Intent(MainActivity.this, TestKotlinActivity.class));
             }
         });
 

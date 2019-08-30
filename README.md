@@ -6,7 +6,7 @@
 
 - 已适配AndroidX。
 
-- 支持Kotlin。（Int、Boolean等基础类型暂不支持。可使用对象包裹基础类型使用。）
+- 支持Kotlin。
 
 - 支持 `ViewModel`、`AndroidViewModel`。（默认为 `ViewModel`）
 
@@ -29,11 +29,11 @@
 添加依赖
 
 ```gradle
-    implementation 'com.github.simplezhli.saber:saber-api:0.2.4'
+    implementation 'com.github.simplezhli.saber:saber-api:0.2.5'
     //AndroidX使用
-    implementation 'com.github.simplezhli.saber:saberx-api:0.2.4'
+    implementation 'com.github.simplezhli.saber:saberx-api:0.2.5'
 
-    annotationProcessor 'com.github.simplezhli.saber:saber-compiler:0.2.4'
+    annotationProcessor 'com.github.simplezhli.saber:saber-compiler:0.2.5'
 ```
 
 首先创建一个类，使用`@LiveData`注解标记你要保存的数据。注意这里的参数名称value，下面会用到。

@@ -19,7 +19,7 @@
         </activity>
 
         <activity android:name=".activity.TestActivity"/>
-
+        <activity android:name=".activity.TestKotlinActivity"/>
         <activity android:name=".activity.MediatorLiveDataActivity"/>
     </application>
 

@@ -17,6 +17,7 @@ import com.zl.weilu.saber.annotation.OnChange;
 import com.zl.weilu.saber.compiler.utils.BaseProcessor;
 import com.zl.weilu.saber.compiler.utils.ClassEntity;
 import com.zl.weilu.saber.compiler.utils.FieldEntity;
+import com.zl.weilu.saber.compiler.utils.JavaPoetTypeUtils;
 import com.zl.weilu.saber.compiler.utils.MethodEntity;
 import com.zl.weilu.saber.compiler.utils.StringUtils;
 
@@ -172,7 +173,8 @@ public class BindViewModelProcessor extends BaseProcessor {
             }
 
             TypeName generic = ClassName.get(methodEntity.getMethodElement().getParameters().get(0).asType());
-
+            generic = JavaPoetTypeUtils.adapterKotlinBaseType(generic);
+            
             TypeSpec comparator = TypeSpec.anonymousClassBuilder("")
                     .addSuperinterface(ParameterizedTypeName.get(observerClazz, generic))
                     .addMethod(MethodSpec.methodBuilder("onChanged")

@@ -27,9 +27,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.0'
     testImplementation 'junit:junit:4.12'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.41"
-//    implementation 'com.github.simplezhli.saber:saberx-api:0.2.4'
-//    annotationProcessor 'com.github.simplezhli.saber:saber-compiler:0.2.4'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61"
+//    implementation 'com.github.simplezhli.saber:saberx-api:0.2.6'
+//    annotationProcessor 'com.github.simplezhli.saber:saber-compiler:0.2.6'
     implementation project(':saberx-api')
     kapt project(':saber-compiler')
 }

@@ -17,7 +17,7 @@ public @interface LiveEventBus {
     /**
      * 是否是Sticky模式
      * 当isBus为true时生效
-     * @return
+     * @return 是否是Sticky模式
      */
     boolean isSticky() default false;
 

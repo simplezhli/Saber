@@ -10,7 +10,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 25
-        versionName "0.2.5"
+        versionName "0.2.7"
         
     }
 
@@ -25,8 +25,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api "androidx.lifecycle:lifecycle-extensions:2.0.0"
-    api 'com.jeremyliao:live-event-bus-x:1.4.2'
+    api "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    api 'com.jeremyliao:live-event-bus-x:1.7.2'
     testImplementation 'junit:junit:4.12'
     api project(':saber-annotation')
 }

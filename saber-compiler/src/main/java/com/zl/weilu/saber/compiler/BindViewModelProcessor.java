@@ -192,10 +192,10 @@ public class BindViewModelProcessor extends BaseProcessor {
                 case DEFAULT:
                     if (isBus){
                         if (isSticky){
-                            initBuilder.addStatement("$T.get().with($S, $T.class).observeSticky(target, $L)",
+                            initBuilder.addStatement("$T.get($S, $T.class).observeSticky(target, $L)",
                                     liveDataBusClazz, model, generic, comparator);
                         }else {
-                            initBuilder.addStatement("$T.get().with($S, $T.class).observe(target, $L)",
+                            initBuilder.addStatement("$T.get($S, $T.class).observe(target, $L)",
                                     liveDataBusClazz, model, generic, comparator);
                         }
                         
@@ -221,14 +221,14 @@ public class BindViewModelProcessor extends BaseProcessor {
                     if (isBus){
 
                         if (isSticky){
-                            initBuilder.addStatement("$T.get().with($S, $T.class).observeStickyForever("+ model + "Observer)",
+                            initBuilder.addStatement("$T.get($S, $T.class).observeStickyForever("+ model + "Observer)",
                                     liveDataBusClazz, model, generic);
                         }else {
-                            initBuilder.addStatement("$T.get().with($S, $T.class).observeForever("+ model + "Observer)",
+                            initBuilder.addStatement("$T.get($S, $T.class).observeForever("+ model + "Observer)",
                                     liveDataBusClazz, model, generic);
                         }
                         
-                        unbindMethodBuilder.addStatement("$T.get().with($S, $T.class).removeObserver("+ model + "Observer)",
+                        unbindMethodBuilder.addStatement("$T.get($S, $T.class).removeObserver("+ model + "Observer)",
                                 liveDataBusClazz, model, generic);
                     }else {
                         initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field1) + 

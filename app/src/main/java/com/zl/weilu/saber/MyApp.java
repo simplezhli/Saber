@@ -14,9 +14,8 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        LiveEventBus.get()
-                .config()
-                .supportBroadcast(this)
+        LiveEventBus.config()
+                .enableLogger(BuildConfig.DEBUG)
                 .lifecycleObserverAlwaysActive(false);
     }
 }

@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.zl.weilu.saber.R;
 import com.zl.weilu.saber.annotation.BindViewModel;
 import com.zl.weilu.saber.annotation.LiveEventBus;
@@ -15,8 +17,6 @@ import com.zl.weilu.saber.annotation.OnChange;
 import com.zl.weilu.saber.api.Saber;
 import com.zl.weilu.saber.viewmodel.LiveDataTimerViewModel;
 import com.zl.weilu.saber.viewmodel.SingleViewModel;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, TestKotlinActivity.class));
+                startActivity(new Intent(MainActivity.this, TestActivity.class));
             }
         });
 

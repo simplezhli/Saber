@@ -55,7 +55,7 @@ public class BindViewModelProcessor extends BaseProcessor {
         String className = classEntity.getElement().getSimpleName().toString() + "_Providers";
 
         ClassName unBinderClazz = ClassName.get("com.zl.weilu.saber.api", "UnBinder");
-        ClassName viewModelProvidersClazz = ClassName.get(useAndroidX ? "androidx.lifecycle" : "android.arch.lifecycle", "ViewModelProviders");
+        ClassName viewModelProvidersClazz = ClassName.get("android.arch.lifecycle", "ViewModelProviders");
         ClassName activityClazz = ClassName.bestGuess(classEntity.getClassQualifiedName());
         ClassName uiThreadClazz = ClassName.get(useAndroidX ? "androidx.annotation" : "android.support.annotation", "UiThread");
         ClassName callSuperClazz = ClassName.get(useAndroidX ? "androidx.annotation" : "android.support.annotation", "CallSuper");
@@ -126,25 +126,49 @@ public class BindViewModelProcessor extends BaseProcessor {
             }else {
                 mClazz = ClassName.bestGuess(fieldEntity.getTypeString());
             }
-            
-            if (StringUtils.isEmpty(key)){
-                if (isShare){
-                    initBuilder.addStatement("target.$L = $T.of(target.getActivity()).get($T.class)", fieldName, viewModelProvidersClazz, mClazz);
+
+            if (useAndroidX) {
+                ClassName viewModelProviderClazz = ClassName.get("androidx.lifecycle", "ViewModelProvider");
+
+                if (StringUtils.isEmpty(key)){
+                    if (isShare){
+                        initBuilder.addStatement("target.$L = new $T(target.requireActivity()).get($T.class)", fieldName, viewModelProviderClazz, mClazz);
+
+                    }else {
+                        initBuilder.addStatement("target.$L = new $T(target).get($T.class)", fieldName, viewModelProviderClazz, mClazz);
+
+                    }
 
                 }else {
-                    initBuilder.addStatement("target.$L = $T.of(target).get($T.class)", fieldName, viewModelProvidersClazz, mClazz);
+                    if (isShare){
+                        initBuilder.addStatement("target.$L = new $T(target.requireActivity()).get($S, $T.class)", fieldName, viewModelProviderClazz, key, mClazz);
 
+                    }else {
+                        initBuilder.addStatement("target.$L = new $T(target).get($S, $T.class)", fieldName, viewModelProviderClazz, key, mClazz);
+
+                    }
                 }
+            } else {
+                if (StringUtils.isEmpty(key)){
+                    if (isShare){
+                        initBuilder.addStatement("target.$L = $T.of(target.getActivity()).get($T.class)", fieldName, viewModelProvidersClazz, mClazz);
 
-            }else {
-                if (isShare){
-                    initBuilder.addStatement("target.$L = $T.of(target.getActivity()).get($S, $T.class)", fieldName, viewModelProvidersClazz, key, mClazz);
+                    }else {
+                        initBuilder.addStatement("target.$L = $T.of(target).get($T.class)", fieldName, viewModelProvidersClazz, mClazz);
+
+                    }
 
                 }else {
-                    initBuilder.addStatement("target.$L = $T.of(target).get($S, $T.class)", fieldName, viewModelProvidersClazz, key, mClazz);
+                    if (isShare){
+                        initBuilder.addStatement("target.$L = $T.of(target.getActivity()).get($S, $T.class)", fieldName, viewModelProvidersClazz, key, mClazz);
 
+                    }else {
+                        initBuilder.addStatement("target.$L = $T.of(target).get($S, $T.class)", fieldName, viewModelProvidersClazz, key, mClazz);
+
+                    }
                 }
             }
+
         }
 
         Map<String, MethodEntity> methods = classEntity.getMethods();
@@ -190,18 +214,24 @@ public class BindViewModelProcessor extends BaseProcessor {
             
             switch (type){
                 case DEFAULT:
+                    boolean isFragment = classEntity.getElement().getSuperclass().toString().contains("Fragment");
+
+                    String target = "target";
+                    if (isFragment) {
+                        target = "target.getViewLifecycleOwner()";
+                    }
                     if (isBus){
                         if (isSticky){
-                            initBuilder.addStatement("$T.get($S, $T.class).observeSticky(target, $L)",
-                                    liveDataBusClazz, model, generic, comparator);
+                            initBuilder.addStatement("$T.get($S, $T.class).observeSticky($L, $L)",
+                                    liveDataBusClazz, model, generic, target, comparator);
                         }else {
-                            initBuilder.addStatement("$T.get($S, $T.class).observe(target, $L)",
-                                    liveDataBusClazz, model, generic, comparator);
+                            initBuilder.addStatement("$T.get($S, $T.class).observe($L, $L)",
+                                    liveDataBusClazz, model, generic, target, comparator);
                         }
                         
                     }else {
-                        initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field1) + "().observe(target, $L)",
-                                model, comparator);
+                        initBuilder.addStatement("target.$L.get" + StringUtils.upperCase(field1) + "().observe($L, $L)",
+                                model, target, comparator);
                     }
 
                     break;

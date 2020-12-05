@@ -114,7 +114,7 @@ public class LiveDataProcessor extends BaseProcessor {
                         .accept(new AllTypesVisitor(), null);
                 if (typeMirrors.isEmpty()){
                     brewLiveData(liveData.type(), classEntity.getClassSimpleName(), valueTypeName, builder, null);
-                }else {
+                } else {
                     for (TypeMirror module : typeMirrors) {
                         brewLiveData(liveData.type(), classEntity.getClassSimpleName(), valueTypeName, builder, (ClassName) TypeName.get(module));
                     }

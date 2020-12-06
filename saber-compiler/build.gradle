@@ -5,9 +5,10 @@ group='com.zl.weilu.saber.complier'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.squareup:javapoet:1.11.1'
-    implementation 'com.google.auto.service:auto-service:1.0-rc4'
-    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc4'
+    implementation 'com.squareup:javapoet:1.13.0'
+    // https://github.com/google/auto/tree/master/service
+    implementation 'com.google.auto.service:auto-service:1.0-rc7'
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc7'
     implementation project(':saber-annotation')
 }
 

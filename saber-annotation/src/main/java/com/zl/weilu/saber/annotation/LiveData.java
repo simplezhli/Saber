@@ -32,4 +32,10 @@ public @interface LiveData {
      * @return 具体类型
      */
     Class<?> liveDataType() default Object.class;
+
+    /**
+     * 是否启用SavedState，仅支持androidx下的type为LiveDataType.DEFAULT
+     * @return 是否启用
+     */
+    boolean isSavedState() default false;
 }

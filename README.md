@@ -14,6 +14,8 @@
 
 - 支持 `SingleLiveEvent`、`MediatorLiveData`、`MutableLiveData`。（默认为 `MutableLiveData`）
 
+- 支持 `SavedState`（仅AndroidX）
+
 - 支持自定义`LiveData`类型。
 
 - 支持事件总线的操作。
@@ -29,11 +31,11 @@
 添加依赖
 
 ```gradle
-    implementation 'com.github.simplezhli.saber:saber-api:0.2.6'
+    implementation 'com.github.simplezhli.saber:saber-api:0.3.0'
     //AndroidX使用
-    implementation 'com.github.simplezhli.saber:saberx-api:0.2.6'
+    implementation 'com.github.simplezhli.saber:saberx-api:0.3.0'
 
-    annotationProcessor 'com.github.simplezhli.saber:saber-compiler:0.2.6'
+    annotationProcessor 'com.github.simplezhli.saber:saber-compiler:0.3.0'
 ```
 
 首先创建一个类，使用`@LiveData`注解标记你要保存的数据。注意这里的参数名称value，下面会用到。

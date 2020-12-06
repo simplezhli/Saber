@@ -9,6 +9,9 @@ import com.zl.weilu.saber.annotation.LiveData;
  */
 public class SeekBar {
     
-    @LiveData
+    @LiveData(isSavedState = true) // 是否启用SavedState
     Integer value;
+
+    @LiveData
+    Integer value1;
 }

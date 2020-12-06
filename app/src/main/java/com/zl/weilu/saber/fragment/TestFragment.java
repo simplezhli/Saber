@@ -17,10 +17,14 @@
 package com.zl.weilu.saber.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.zl.weilu.saber.R;
 import com.zl.weilu.saber.annotation.BindViewModel;
@@ -28,16 +32,15 @@ import com.zl.weilu.saber.annotation.OnChange;
 import com.zl.weilu.saber.api.Saber;
 import com.zl.weilu.saber.viewmodel.SeekBarViewModel;
 
-import androidx.fragment.app.Fragment;
-
 /**
  * Shows a SeekBar that is synced with a value in a ViewModel.
  */
 public class TestFragment extends Fragment {
 
     private SeekBar mSeekBar;
+    private TextView mTextView;
 
-    @BindViewModel(key = "value", isShare = true)
+    @BindViewModel(isShare = true)
     SeekBarViewModel mSeekBarViewModel;
     
     @Override
@@ -45,6 +48,7 @@ public class TestFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_test, container, false);
         mSeekBar = root.findViewById(R.id.seekBar);
+        mTextView = root.findViewById(R.id.tv);
         Saber.bind(this);
         subscribeSeekBar();
         return root;
@@ -69,8 +73,10 @@ public class TestFragment extends Fragment {
     }
 
     @OnChange(model = "mSeekBarViewModel")
-    void setData(Integer value){
+    void setData(Integer value) {
+        Log.d("TestFragment", value + "");
         if (value != null) {
+            mTextView.setText(value + "%");
             mSeekBar.setProgress(value);
         }
     }

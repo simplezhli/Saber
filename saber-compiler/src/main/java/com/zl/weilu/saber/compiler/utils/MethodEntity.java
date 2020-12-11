@@ -17,14 +17,14 @@ import javax.lang.model.util.Types;
 
 public class MethodEntity implements Entity {
     private final String packageName;
-    private ExecutableElement methodElement;
-    private String returnType;
-    private List<? extends VariableElement> parameterElements;
-    private List<? extends TypeParameterElement> typeParameterElements;
-    private boolean isVarArgs;
-    private String methodName;
-    private List<? extends TypeMirror> exceptionTypes;
-    private String classSimpleName;
+    private final ExecutableElement methodElement;
+    private final String returnType;
+    private final List<? extends VariableElement> parameterElements;
+    private final List<? extends TypeParameterElement> typeParameterElements;
+    private final boolean isVarArgs;
+    private final String methodName;
+    private final List<? extends TypeMirror> exceptionTypes;
+    private final String classSimpleName;
     private final String classQualifiedName;
 
     public MethodEntity(ExecutableElement methodElement, Types typeMirror, Elements elementUtils) {

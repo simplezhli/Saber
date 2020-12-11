@@ -24,11 +24,11 @@ import javax.tools.Diagnostic;
  */
 
 public class EntityHandler {
-    private Elements elementUtils;
-    private Types typeUtils;
-    private Filer filer;
-    private Messager messager;
-    private Map<String, ClassEntity> classEntityMap;
+    private final Elements elementUtils;
+    private final Types typeUtils;
+    private final Filer filer;
+    private final Messager messager;
+    private final Map<String, ClassEntity> classEntityMap;
 
     private OnRegulaListener<VariableElement> onFieldRegulaListener;
     private OnRegulaListener<ExecutableElement> onMethodRegulaListener;

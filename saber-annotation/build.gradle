@@ -7,8 +7,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
 
 // 指定编码
 tasks.withType(JavaCompile) {
@@ -17,13 +17,13 @@ tasks.withType(JavaCompile) {
 
 // 打包源码
 task sourcesJar(type: Jar) {
-    classifier = 'sources'
+    getArchiveClassifier().set('sources')
     from sourceSets.main.allSource
 }
 
 // 制作文档(Javadoc)
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    getArchiveClassifier().set('javadoc')
     from javadoc.destinationDir
 }
 

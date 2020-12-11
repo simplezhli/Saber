@@ -237,7 +237,7 @@ public class BindViewModelProcessor extends BaseProcessor {
                     break;
                 case FOREVER:
 
-                    /**
+                    /*
                      * FOREVER模式需要手动取消订阅
                      */
                     FieldSpec observerField = FieldSpec

@@ -21,17 +21,17 @@ import javax.lang.model.util.Types;
  */
 
 public class ClassEntity {
-    private WeakReference<TypeElement> elementWeakCache;
-    private Name classSimpleName;
-    private Name classQualifiedName;
-    private String classPackageName;
-    private Set<Modifier> modifierSet;
-    private String className;
-    private String superclass;
+    private final WeakReference<TypeElement> elementWeakCache;
+    private final Name classSimpleName;
+    private final Name classQualifiedName;
+    private final String classPackageName;
+    private final Set<Modifier> modifierSet;
+    private final String className;
+    private final String superclass;
     List<? extends AnnotationMirror> annotationMirrors;
-    private List<String> interfaces = new ArrayList<>();
-    private Map<String, FieldEntity> fields = new HashMap<>();
-    private Map<String, MethodEntity> methods = new HashMap<>();
+    private final List<String> interfaces = new ArrayList<>();
+    private final Map<String, FieldEntity> fields = new HashMap<>();
+    private final Map<String, MethodEntity> methods = new HashMap<>();
 
     /**
      * @param elementUtils
@@ -39,7 +39,7 @@ public class ClassEntity {
      * @param element      current anntated class
      */
     public ClassEntity(Elements elementUtils, Types typeUtils, TypeElement element) {
-        elementWeakCache = new WeakReference<TypeElement>(element);
+        elementWeakCache = new WeakReference<>(element);
         this.classPackageName = elementUtils.getPackageOf(element).getQualifiedName().toString();
         this.modifierSet = element.getModifiers();
         this.className = element.toString();
@@ -107,20 +107,27 @@ public class ClassEntity {
         StringBuilder fieldString = new StringBuilder();
         StringBuilder methodString = new StringBuilder();
         StringBuilder interfacesString = new StringBuilder();
-        StringBuilder annotataionMapString = new StringBuilder();
         for (Map.Entry<String, FieldEntity> item : fields.entrySet()) {
-            fieldString.append("FieldKey:" + item.getKey() +
-                    "\tFieldValue:\n" + item.getValue().toString() + "\n");
+            fieldString.append("FieldKey:")
+                    .append(item.getKey())
+                    .append("\tFieldValue:\n")
+                    .append(item.getValue().toString())
+                    .append("\n");
         }
         for (Map.Entry<String, MethodEntity> item : methods.entrySet()) {
-            methodString.append("Methodkey:"+ item.getKey()+
-                    "\tMethodValue:\n"+ item.getValue().toString()+"\n");
+            methodString.append("MethodKey:")
+                    .append(item.getKey())
+                    .append("\tMethodValue:\n")
+                    .append(item.getValue().toString())
+                    .append("\n");
         }
         for (int i = 0; i < interfaces.size(); i++) {
-            interfacesString.append("interfaces__index:" + i + ":" + interfaces.get(i));
+            interfacesString.append("interfaces__index:")
+                    .append(i)
+                    .append(":")
+                    .append(interfaces.get(i));
         }
-        StringBuilder result = new StringBuilder();
-        result.append("{\n" +
+        return "{\n" +
                 "classPackageName:" + classPackageName + "\n" +
                 "modifierSet:" + modifierSet + "\n" +
                 "classSimpleName:" + className + "\n" +
@@ -128,9 +135,7 @@ public class ClassEntity {
                 "superclass:" + superclass + "\n" +
                 fieldString.toString() + "\n" +
                 methodString.toString() + "\n" +
-                annotataionMapString.toString() + "\n" +
                 interfacesString.toString() + "\n" +
-                "}");
-        return result.toString();
+                "}";
     }
 }

@@ -17,14 +17,14 @@ package com.zl.weilu.saber.api.event;
 
 import android.util.Log;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * SingleLiveEvent 类是为了适用于特定场景的解决方法。这是一个只会发送一次更新的 LiveData。
@@ -47,7 +47,7 @@ public class SingleLiveEvent<T> extends MutableLiveData<T> {
 
     @MainThread
     @Override
-    public void observe(LifecycleOwner owner, final Observer<? super T> observer) {
+    public void observe(@NonNull LifecycleOwner owner, @NonNull final Observer<? super T> observer) {
 
         if (hasActiveObservers()) {
             Log.w(TAG, "Multiple observers registered but only one will be notified of changes.");

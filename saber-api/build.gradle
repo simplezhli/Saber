@@ -40,7 +40,7 @@ tasks.withType(JavaCompile) {
 // 打包源码
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
+    getArchiveClassifier().set('sources')
 }
 
 task javadoc(type: Javadoc) {
@@ -52,7 +52,7 @@ task javadoc(type: Javadoc) {
 
 // 制作文档(Javadoc)
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    getArchiveClassifier().set('javadoc')
     from javadoc.destinationDir
 }
 

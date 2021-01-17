@@ -216,7 +216,7 @@ public class LiveDataProcessor extends BaseProcessor {
                     .addModifiers(Modifier.PUBLIC)
                     .returns(void.class)
                     .addParameter(valueTypeName, "mValue")
-                    .addStatement("get$L().setValue(mValue)", fieldName)
+                    .addStatement("$N().setValue(mValue)", getMethod)
                     .build();
 
             MethodSpec postMethod = MethodSpec
@@ -224,7 +224,7 @@ public class LiveDataProcessor extends BaseProcessor {
                     .addModifiers(Modifier.PUBLIC)
                     .returns(void.class)
                     .addParameter(valueTypeName, "mValue")
-                    .addStatement("get$L().postValue(mValue)", fieldName)
+                    .addStatement("$N().postValue(mValue)", getMethod)
                     .build();
 
             builder.addField(field)
@@ -275,7 +275,7 @@ public class LiveDataProcessor extends BaseProcessor {
                     .methodBuilder("get" + fieldName + "Value")
                     .addModifiers(Modifier.PUBLIC)
                     .returns(valueTypeName)
-                    .addStatement("return this.get$L().getValue()", fieldName)
+                    .addStatement("return this.$N().getValue()", getMethod)
                     .build();
 
             MethodSpec setMethod = MethodSpec

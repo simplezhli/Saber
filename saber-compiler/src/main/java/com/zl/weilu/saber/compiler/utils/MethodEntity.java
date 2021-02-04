@@ -99,6 +99,6 @@ public class MethodEntity implements Entity {
                 ", exceptionTypes=" + exceptionTypes +
                 ", classSimpleName='" + classSimpleName + '\'' +
                 ", classQualifiedName='" + classQualifiedName + '\'' +
-                '}';
+                "}\n";
     }
 }

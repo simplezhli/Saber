@@ -4,6 +4,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 group='com.zl.weilu.saber.complier'
 
 dependencies {
+    //https://blog.jiyang.site/posts/2020-03-24-%E8%AE%A9annotation-processor-%E6%94%AF%E6%8C%81%E5%A2%9E%E9%87%8F%E7%BC%96%E8%AF%91/
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.squareup:javapoet:1.13.0'
     // https://github.com/google/auto/tree/master/service

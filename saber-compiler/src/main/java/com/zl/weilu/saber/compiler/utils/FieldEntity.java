@@ -94,6 +94,6 @@ public class FieldEntity implements Entity {
                 ", classQualifiedName='" + classQualifiedName + '\'' +
                 ", fieldName='" + fieldName + '\'' +
                 ", typeName='" + typeName + '\'' +
-                '}';
+                "}\n";
     }
 }

@@ -92,7 +92,7 @@ public class EntityHandler {
         }
         MethodEntity methodEntity = new MethodEntity(element, typeUtils, elementUtils);
 
-        printNormalMsg(methodEntity.toString());
+        //printNormalMsg(methodEntity.toString());
 
         String className = methodEntity.getClassSimpleName();
         if (classEntityMap.get(className) == null){
@@ -120,7 +120,7 @@ public class EntityHandler {
         }
         //builder bean
         FieldEntity fieldEntity = new FieldEntity(elementUtils, element);
-        printNormalMsg(fieldEntity.toString());
+        //printNormalMsg(fieldEntity.toString());
         //add to map
         //get the class name
         String className = fieldEntity.getClassSimpleName();

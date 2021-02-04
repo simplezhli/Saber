@@ -22,6 +22,8 @@
 
 - Forever模式自动取消订阅。
 
+- 支持注解处理器增量编译。
+
 ## 详细介绍
 
 - [感受LiveData 与 ViewModel结合之美](https://blog.csdn.net/qq_17766199/article/details/80732836)

@@ -19,14 +19,3 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep public class * implements com.zl.weilu.saber.api.UnBinder{public <init>(**);}
-
--keep class com.zl.weilu.saber.api.** {*;}
--keep class com.zl.weilu.saber.annotation.** {*;}
--keepclasseswithmembernames class * { @com.zl.weilu.saber.annotation.* <methods>; }
--keepclasseswithmembernames class * { @com.zl.weilu.saber.annotation.* <fields>; }
-
--dontwarn com.jeremyliao.liveeventbus.**
--keep class com.jeremyliao.liveeventbus.** { *; }
--keep class androidx.lifecycle.** { *; }
--keep class androidx.arch.core.** { *; }
